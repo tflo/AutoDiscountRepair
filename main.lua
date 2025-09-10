@@ -142,62 +142,45 @@ local function get_repaircosts_bags()
 	return total
 end
 
-local get_stdrepaircosts_onhold
 -- @ UPDATE_INVENTORY_DURABILITY
 function A.get_stdrepaircosts(byusercmd)
-	-- If at a merchant, this returns the discounted costs, not the std costs!
-	if get_stdrepaircosts_onhold or A.merchant_is_open then return end
-	get_stdrepaircosts_onhold = true
-	C_TimerAfter(1, function()
-		get_stdrepaircosts_onhold = nil
-		if A.merchant_is_open then return end
-		local stdrepaircosts_inv = get_repaircosts_inv()
-		local stdrepaircosts_bags = get_repaircosts_bags()
+	-- Check this again here
+	if A.merchant_is_open then return end
+	local stdrepaircosts_inv = get_repaircosts_inv()
+	local stdrepaircosts_bags = get_repaircosts_bags()
 -- 		stdrepaircosts_bags = 0 -- debug
-		local stdrepaircosts = stdrepaircosts_inv + stdrepaircosts_bags
+	local stdrepaircosts = stdrepaircosts_inv + stdrepaircosts_bags
 -- 		printf(format('Repair costs updated.')) -- debug
-		-- Messages
-		if db.show_increased_costs or byusercmd then
-			local thresh, round_total, round_diff = db.increased_costs_threshold, 'silver', 'copper'
-			local diff, absdiff, inv_displayed, bags_displayed
-			-- Inventory
-			if not A.last_repaircosts_inv then
-				-- First run
-				thresh = 0
-				A.last_repaircosts_inv = stdrepaircosts_inv
-			end
-			if byusercmd then thresh = 0 end
-			local diff_inv = stdrepaircosts_inv - A.last_repaircosts_inv
-			diff = diff_inv
-			if diff ~= 0 or thresh == 0 then
-				absdiff = abs(diff)
-				if absdiff >= thresh then
-					inv_displayed = true
-					A.last_repaircosts_inv = stdrepaircosts_inv
-					addonmsg(format('Inventory repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true), diff >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff, round_diff), true)))
-				end
-			end
-			-- Bags
-			A.last_repaircosts_bags = A.last_repaircosts_bags or stdrepaircosts_bags
-			local diff_bags = stdrepaircosts_bags - A.last_repaircosts_bags
-			diff = diff_bags
-			if diff ~= 0 or thresh == 0 then
-				absdiff = abs(diff)
-				if absdiff >= thresh then
-					bags_displayed = true
-					A.last_repaircosts_bags = stdrepaircosts_bags
-					addonmsg(format('Bags repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts_bags, round_total), true), diff >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff, round_diff), true)))
-				end
-			end
-			-- Total
-			if inv_displayed or bags_displayed then
-				diff = diff_inv + diff_bags
-				absdiff = abs(diff)
-				addonmsg(format('Total repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts, round_total), true), diff >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff, round_diff), true)))
+	-- Messages
+	if db.show_increased_costs or byusercmd then
+		local thresh, round_total, round_diff = db.increased_costs_threshold, 'silver', 'copper'
+		if not A.last_repaircosts_inv then
+			-- First run
+			thresh = 0
+			A.last_repaircosts_inv = stdrepaircosts_inv
+			A.last_repaircosts_bags = stdrepaircosts_bags
+		end
+		if byusercmd then thresh = 0 end
+		local diff_inv = stdrepaircosts_inv - A.last_repaircosts_inv
+		local absdiff_inv = abs(diff_inv)
+		local diff_bags = stdrepaircosts_bags - A.last_repaircosts_bags
+		local absdiff_bags = abs(diff_bags)
+		A.last_repaircosts_inv, A.last_repaircosts_bags = stdrepaircosts_inv, stdrepaircosts_bags
+		local diff_total = diff_inv + diff_bags
+		local absdiff_total = abs(diff_total)
+		if absdiff_total >= thresh or absdiff_inv >= thresh or absdiff_bags >= thresh then
+			if stdrepaircosts_bags == 0 and diff_bags == 0 then
+				addonmsg(format('Inventory (= total) repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true), diff_inv >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff_inv, round_diff), true)))
+			elseif stdrepaircosts_inv == 0 and diff_inv == 0  then
+				addonmsg(format('Bags (= total) repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts_bags, round_total), true), diff_bags >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff_bags, round_diff), true)))
+			else
+				addonmsg(format('Inventory repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true), diff_inv >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff_inv, round_diff), true)))
+				addonmsg(format('Bags repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts_bags, round_total), true), diff_bags >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff_bags, round_diff), true)))
+				addonmsg(format('Total repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts, round_total), true), diff_total >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff_total, round_diff), true)))
 			end
 		end
-		A.stdrepaircosts = stdrepaircosts
-	end)
+	end
+	A.stdrepaircosts = stdrepaircosts
 end
 
 local discounts = {
@@ -296,9 +279,17 @@ local function PLAYER_ENTERING_WORLD(login, reload)
 	local delay = login and 5 or 1
 	C_TimerAfter(delay, get_guild)
 end
+
+local get_stdrepaircosts_onhold
 local function UPDATE_INVENTORY_DURABILITY()
-	-- The function contains a throttle
-	A.get_stdrepaircosts()
+	-- If at a merchant, this returns the discounted costs, not the std costs; so no point
+	-- Throttling is needed bc the event can fire multiple times in a row
+	if get_stdrepaircosts_onhold or A.merchant_is_open then return end
+	get_stdrepaircosts_onhold = true
+	C_TimerAfter(1, function()
+		get_stdrepaircosts_onhold = nil
+		A.get_stdrepaircosts()
+	end)
 end
 
 
