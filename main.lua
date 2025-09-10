@@ -148,6 +148,10 @@ function A.get_stdrepaircosts(byusercmd)
 		local diff_total = diff_inv + diff_bags
 		local absdiff_total = abs(diff_total)
 		if absdiff_total >= thresh or absdiff_inv >= thresh or absdiff_bags >= thresh then
+			if db.increased_costs_sound then
+				local sound = thresh == 0 and A.SOUND_INCREASED_COSTS_1 or A.SOUND_INCREASED_COSTS_3
+				PlaySoundFile(sound)
+			end
 			if stdrepaircosts_bags == 0 and diff_bags == 0 then
 				addonmsg(format('Inventory (= total) repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true), diff_inv >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff_inv, round_diff), true)))
 			elseif stdrepaircosts_inv == 0 and diff_inv == 0  then
@@ -276,6 +280,9 @@ local function slash_cmd(msg)
 				.. good_txt(db.show_increased_costs) .. ' (' .. tostring(defaults.show_increased_costs) ..')]',
 			key_txt('<number>') .. ' : Increment for showing repair costs [amount in Gold; '
 				.. good_txt(db.increased_costs_threshold/1e4) .. ' (' .. defaults.increased_costs_threshold/1e4 ..')]',
+			key_txt('sound') .. ' : Play a sound when increased repair costs are printed [toggle; '
+				.. good_txt(db.increased_costs_sound) .. ' (' .. tostring(A.defaults.increased_costs_sound)
+				..')]. This requires the ' .. key_txt('costs') .. ' option to be true.',
 			key_txt('help') .. ' or ' .. key_txt('h') .. ' : This help text.',
 		}
 		for _, line in ipairs(lines) do
