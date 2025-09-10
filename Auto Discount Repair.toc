@@ -19,5 +19,7 @@
 # SavedVariablesPerCharacter:
 
 # Files
+init.lua
 main.lua
+events.lua
 

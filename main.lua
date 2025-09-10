@@ -2,75 +2,54 @@
 -- Copyright (c) 2025 Thomas Floeren
 
 local myname, A = ...
+local db = A.db
+local debug = A.debug
 local myprettyname = C_AddOns.GetAddOnMetadata(myname, "Title")
 
-local debug = true
 
 -- API
 local _
-local printf = print
--- local wticc = WrapTextInColorCode
 local C_TimerAfter = C_Timer.After
 local IsInGuild = IsInGuild
 local C_TooltipInfoGetInventoryItem = C_TooltipInfo.GetInventoryItem
 local C_TooltipInfoGetBagItem = C_TooltipInfo.GetBagItem
 local C_ContainerGetContainerNumSlots = C_Container.GetContainerNumSlots
 local C_ContainerGetContainerItemDurability = C_Container.GetContainerItemDurability
+local GetMoneyString = GetMoneyString
 
--- DB
-local defaults = {
-	['default_guildmoney_preferred'] = false,
-	['default_guildmoney_only'] = false,
-	['show_increased_costs'] = true,
-	['discount_threshold'] = 20,
-	['increased_costs_threshold'] = 10 * 1e4,
-	['show_repairsummary'] = true,
-}
-_G['DB_8552E721_B117_473D_A2D1_3D0939A5338A'] =
-	setmetatable(_G['DB_8552E721_B117_473D_A2D1_3D0939A5338A'] or {}, { __index = defaults })
-local db = _G['DB_8552E721_B117_473D_A2D1_3D0939A5338A']
-A.db = db
-
--- Console
 local function color_text(text, color)
 	return color:WrapTextInColorCode(tostring(text))
 end
 
-local C_ADDON = BLUE_FONT_COLOR
-local C_NEUTRAL = LIGHTYELLOW_FONT_COLOR
-local C_GOOD = GREEN_FONT_COLOR
-local C_KEY = HIGHLIGHT_LIGHT_BLUE
-local C_ATTN = ORANGE_FONT_COLOR
-local C_BAD = RED_FONT_COLOR
-local C_DEBUG = EXPANSION_COLOR_13
-local ADDONNAME_SHORT = 'ADR'
-local ADDONNAME_LONG = myname
-local function key_txt(text) return color_text(text, C_KEY) end
-local function addon_txt(text) return color_text(text, C_ADDON) end
-local function neutral_txt(text) return color_text(text, C_NEUTRAL) end
-local function attn_txt(text) return color_text(text, C_ATTN) end
-local function bad_txt(text) return color_text(text, C_BAD) end
-local function good_txt(text) return color_text(text, C_GOOD) end
-local PREFIX_SHORT = C_ADDON:WrapTextInColorCode(ADDONNAME_SHORT) .. ': '
-local PREFIX_LONG = C_ADDON:WrapTextInColorCode(ADDONNAME_LONG) .. ': '
+local function key_txt(text) return color_text(text, A.CLR_KEY) end
+local function addon_txt(text) return color_text(text, A.CLR_ADDON) end
+local function neutral_txt(text) return color_text(text, A.CLR_NEUTRAL) end
+local function attn_txt(text) return color_text(text, A.CLR_ATTN) end
+local function bad_txt(text) return color_text(text, A.CLR_BAD) end
+local function good_txt(text) return color_text(text, A.CLR_GOOD) end
 
 local function addonmsg(text, color)
-	local color = color or C_NEUTRAL
-	print(PREFIX_SHORT .. color:WrapTextInColorCode(text))
+	local color = color or A.CLR_NEUTRAL
+	print(A.PREFIX_SHORT .. color:WrapTextInColorCode(text))
 end
+A.addonmsg = addonmsg
+
 local function addonmessage(text, color)
-	local color = color or C_NEUTRAL
-	print(PREFIX_LONG .. color:WrapTextInColorCode(text))
+	local color = color or A.CLR_NEUTRAL
+	print(A.PREFIX_LONG .. color:WrapTextInColorCode(text))
 end
+A.addonmessage = addonmessage
+
 local function debugprint(text)
-if not debug then return end
-	print(PREFIX_SHORT .. C_DEBUG:WrapTextInColorCode(text))
+	if not debug then return end
+	print(A.PREFIX_SHORT .. A.CLR_DEBUG:WrapTextInColorCode(text))
 end
+A.debugprint = debugprint
 
 ---
 
 local guild, is_in_guild, get_guild_tries = nil, nil, 0
-local function get_guild()
+function A.get_guild()
 	if IsInGuild() then
 		get_guild_tries = get_guild_tries + 1
 		is_in_guild = true
@@ -199,7 +178,6 @@ local function find_closest_valid_discount(actual)
 end
 
 function A.autorepair()
-	if IsShiftKeyDown() then return end
 	if CanMerchantRepair() then
 		local actual_costs, canrepair = GetRepairAllCost()
 		if not canrepair then
@@ -216,7 +194,7 @@ function A.autorepair()
 -- 		printf(format('Raw actual discount: %s; nominal: %s', actual_discount, nominal_discount or 'Failed!')) -- debug
 		-- For debugging, but maybe leave it in as safety.
 		if not nominal_discount then
-			addonmsg(attn_txt(format('We have a calculation mismatch: the computed discount of %s%% does not match any nominal discount (0%%, 5%%, 10%%, 15%%, 20%%)! Probably our last record of the standard repair costs is not accurate or outdated. Aborting auto-repair!', actual_discount)))
+			addonmessage(attn_txt(format('We have a calculation mismatch: the computed discount of %s%% does not match any nominal discount (0%%, 5%%, 10%%, 15%%, 20%%)! Probably our last record of the standard repair costs is not accurate or outdated. Aborting auto-repair! (You may try to restart interaction with the merchant.)', actual_discount)))
 			return
 		end
 		if nominal_discount >= db.discount_threshold then
@@ -252,63 +230,6 @@ function A.autorepair()
 	end
 end
 
--- Events
-
-local ef = CreateFrame('Frame', 'ADR_eventframe')
-
-ef:RegisterEvent 'PLAYER_INTERACTION_MANAGER_FRAME_SHOW'
-ef:RegisterEvent 'PLAYER_INTERACTION_MANAGER_FRAME_HIDE'
-ef:RegisterEvent 'UPDATE_INVENTORY_DURABILITY'
-ef:RegisterEvent 'PLAYER_ENTERING_WORLD'
--- ef:RegisterEvent 'PLAYER_LOGIN'
-
-local function PLAYER_INTERACTION_MANAGER_FRAME_SHOW(...)
-	if ... == Enum.PlayerInteractionType.Merchant then -- Merchant 5
-		debugprint('Merchant opened')
-		A.merchant_is_open = true
-		A.autorepair()
-	end
-end
-local function PLAYER_INTERACTION_MANAGER_FRAME_HIDE(...)
-	if ... == Enum.PlayerInteractionType.Merchant then -- Merchant 5
-		debugprint('Merchant closed')
-		A.merchant_is_open = nil
-	end
-end
-local function PLAYER_LOGIN()
-	C_TimerAfter(5, get_guild)
-end
-local function PLAYER_ENTERING_WORLD(login, reload)
-	if not login and not reload then return end
-	local delay = login and 5 or 1
-	C_TimerAfter(delay, get_guild)
-end
-
-local get_stdrepaircosts_onhold
-local function UPDATE_INVENTORY_DURABILITY()
-	-- If at a merchant, this returns the discounted costs, not the std costs; so no point
-	-- Throttling is needed bc the event can fire multiple times in a row
-	if get_stdrepaircosts_onhold or A.merchant_is_open then return end
-	get_stdrepaircosts_onhold = true
-	C_TimerAfter(1, function()
-		get_stdrepaircosts_onhold = nil
-		A.get_stdrepaircosts()
-	end)
-end
-
-
-local event_handlers = {
--- 	['PLAYER_LOGIN'] = PLAYER_LOGIN,
-	['PLAYER_ENTERING_WORLD'] = PLAYER_ENTERING_WORLD,
-	['PLAYER_INTERACTION_MANAGER_FRAME_SHOW'] = PLAYER_INTERACTION_MANAGER_FRAME_SHOW,
-	['PLAYER_INTERACTION_MANAGER_FRAME_HIDE'] = PLAYER_INTERACTION_MANAGER_FRAME_HIDE,
-	['UPDATE_INVENTORY_DURABILITY'] = UPDATE_INVENTORY_DURABILITY,
-}
-
-ef:SetScript('OnEvent', function(_, event, ...)
-	local handler = event_handlers[event]
-	if handler then handler(...) end
-end)
 
 -- Slash
 
