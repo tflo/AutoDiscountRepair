@@ -24,19 +24,22 @@ The main command is `/adr`. If no arguments are provided, this will print your c
 
 The most important argument is `help` (or `h`). The command `/adr help` or `/adr h` will show you all available arguments, and other information you might need to know.
 
-Besides that, the `/adr` command understands these arguments; all of these are toggles (on/off):
+Besides that, the `/adr` command understands these arguments; most of them are toggles (true/false):
 
-- `guild`: Prefer guild money for auto repairs [default: off]
-- `guildonly`: If there isn’t enough guild money, do not use personal money as fallback [default: off]
+- `guild` : Prefer guild money for auto repairs [toggle; default: false]
+- `guildonly` : Use exclusively guild money for auto repairs [toggle; default: false]
+- `0%||5%||10%||15%||20%||max` : Discount threshold; `max` = `20%` [percent; default: 20%]
+- `summary` : Show summary at merchant [toggle; default: true]
+- `costs` : Show current repair costs when they increased [toggle; default: true]. This shows your current repair costs in the chat after your gear has suffered durability loss.
+- `<number>` : Increment for showing the repair costs [amount in Gold;  default: 10]
+- `help` or `h` : Shows the Help text, with a list of all arguments and the current settings.
 
-The guild-money settings are saved per guild. If your char is not in a guild, any guild settings are irrelevant for this char. 
+The guild-money settings are saved per guild. If your char is not in a guild, any guild settings are irrelevant for this char. All other settings are account-wide.
 
 After every command, the addon prints the current state of the setting you’ve just changed.
 
+
 ## Future features (aka currently missing features, ToDo):
 
-- Threshold config for when a message about increased repair costs will appear in the console.
-- Configurable threshold for the auto repair, so that you can set it to 15%, for example.
-- Config whether to use guild money for repairs.
 - Maybe: LDB display and button (this will take a while)
 
