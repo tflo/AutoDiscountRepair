@@ -233,14 +233,18 @@ function A.autorepair()
 				RepairAllItems(false)
 			end
 			if db.show_repairsummary then
-				local costs = get_repaircosts_inv() + get_repaircosts_bags()
-				if costs == 0 then
-					addonmsg(format('Repaired for %s (%s discount)', GetMoneyString(roundmoney(actual_costs, 'silver'), true), WrapTextInColorCode(nominal_discount .. '%', 'ff' .. discounts[nominal_discount])))
-				elseif db[guild].guildmoney_only then
-					addonmsg('Your gear was not (or not entirely) repaired. This is probably because of your ' .. attn_txt('guildonly') .. ' setting.')
-				else
-					addonmsg('Your gear was not (or not entirely) repaired. Did you run out of money?')
-				end
+				-- Re-calculate repair costs
+				-- This comes to early
+				C_TimerAfter(1, function()
+					local costs = get_repaircosts_inv() + get_repaircosts_bags()
+					if costs == 0 then
+						addonmsg(format('Repaired for %s (%s discount)', GetMoneyString(roundmoney(actual_costs, 'silver'), true), WrapTextInColorCode(nominal_discount .. '%', 'ff' .. discounts[nominal_discount])))
+					elseif db[guild].guildmoney_only then
+						addonmsg('Your gear was not (or not entirely) repaired. This is probably because of your ' .. attn_txt('guildonly') .. ' setting.')
+					else
+						addonmsg('Your gear was not (or not entirely) repaired. Did you run out of money?')
+					end
+				end)
 			end
 		elseif db.show_repairsummary then
 			addonmsg(format('You could repair here for: %s - %s = %s', GetMoneyString(roundmoney(A.stdrepaircosts, 'silver'), true), WrapTextInColorCode(nominal_discount .. '%', 'ff' .. discounts[nominal_discount]), GetMoneyString(roundmoney(actual_costs, 'silver'), true)))
