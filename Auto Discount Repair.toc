@@ -1,0 +1,23 @@
+## Interface: 110200
+## Title: Auto Discount Repair
+## Version: 0.3.0
+## Notes: Helps you to repair where it is cheap.
+## Author: Mot (@6mot, @tflo)
+## SPDX-License-Identifier: GPL-3.0-or-later
+
+# DefaultState: disabled
+# Dependencies:
+# OptionalDeps:
+# LoadWith:
+# LoadOnDemand:
+
+# X-Wago-ID:
+# X-Curse-Project-ID:
+## AllowAddOnTableAccess: 1
+## LoadSavedVariablesFirst: 1
+## SavedVariables: DB_8552E721_B117_473D_A2D1_3D0939A5338A
+# SavedVariablesPerCharacter:
+
+# Files
+main.lua
+
