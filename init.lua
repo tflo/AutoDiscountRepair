@@ -7,6 +7,12 @@ local myprettyname = C_AddOns.GetAddOnMetadata(myname, "Title")
 local _
 
 
+--[[===========================================================================
+	SV and defaults
+===========================================================================]]--
+
+-- Note that we have `LoadSavedVariablesFirst: 1` in the toc, so no need to wait for ADDON_LOADED
+
 local defaults = {
 	['default_guildmoney_preferred'] = false,
 	['default_guildmoney_only'] = false,
@@ -34,6 +40,11 @@ local function make_subtables(src, dst)
 end
 
 make_subtables(defaults, db)
+
+
+--[[===========================================================================
+	Constants
+===========================================================================]]--
 
 A.CLR_ADDON = BLUE_FONT_COLOR
 A.CLR_NEUTRAL = LIGHTYELLOW_FONT_COLOR
