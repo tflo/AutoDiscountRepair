@@ -1,7 +1,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 -- Copyright (c) 2025 Thomas Floeren
 
-local _, A = ...
+local myname, A = ...
 
 local _
 local debugprint = A.debugprint
@@ -10,7 +10,7 @@ local C_TimerAfter = C_Timer.After
 
 
 
-local ef = CreateFrame('Frame', 'ADR_eventframe')
+local ef = CreateFrame('Frame', myname .. '_eventframe')
 
 ef:RegisterEvent 'PLAYER_INTERACTION_MANAGER_FRAME_SHOW'
 ef:RegisterEvent 'PLAYER_INTERACTION_MANAGER_FRAME_HIDE'
@@ -37,6 +37,7 @@ local function PLAYER_LOGIN()
 	C_TimerAfter(5, A.get_guild)
 end
 
+-- Guild info is often not available shortly after login, so better use PEW with adaptive delays.
 local function PLAYER_ENTERING_WORLD(login, reload)
 	if not login and not reload then return end
 	local delay = login and 5 or 1

@@ -1,9 +1,8 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 -- Copyright (c) 2025 Thomas Floeren
 
-local myname, A = ...
+local _, A = ...
 local db = A.db
-local myprettyname = C_AddOns.GetAddOnMetadata(myname, "Title")
 
 
 -- API
@@ -45,7 +44,10 @@ local function debugprint(text)
 end
 A.debugprint = debugprint
 
----
+
+--[[===========================================================================
+	Main
+===========================================================================]]--
 
 local guild, is_in_guild, get_guild_tries = nil, nil, 0
 function A.get_guild()
@@ -74,8 +76,10 @@ function A.get_guild()
 end
 
 
+--[[---------------------------------------------------------------------------
+	Get the costs
+---------------------------------------------------------------------------]]--
 
-local repairable_slots = { 1, 3, 5, 6, 7, 8, 9, 10, 16, 17 }
 local function roundmoney(amount, precision)
 	local precision = precision or 'c'
 	precision = precision:sub(1, 1)
@@ -85,11 +89,15 @@ local function roundmoney(amount, precision)
 	return rounded
 end
 
+local repairable_slots = { 1, 3, 5, 6, 7, 8, 9, 10, 16, 17 }
+local num_repairable_slots = #repairable_slots
+
 local function get_repaircosts_inv()
 	local total = 0
 -- 	local ts_start = GetTimePreciseSec() -- debug
-	for _, slot in ipairs(repairable_slots) do
+	for i = 1, num_repairable_slots do
 	-- for slot = 1,17 do -- this seems to be even faster
+		local slot = repairable_slots[i]
 		local durability, max_durability = GetInventoryItemDurability(slot)
 		if durability and durability ~= max_durability then
 			local data, costs = C_TooltipInfoGetInventoryItem('player', slot), nil
@@ -98,7 +106,7 @@ local function get_repaircosts_inv()
 		end
 	end
 -- 	local time_spent = GetTimePreciseSec() - ts_start -- debug
--- 	printf('Needed for inventory repair costs:', time_spent) -- debug
+-- 	debugprint('Needed for inventory repair costs:', time_spent) -- debug
 	return total
 end
 
@@ -116,8 +124,16 @@ local function get_repaircosts_bags()
 		end
 	end
 -- 	local time_spent = GetTimePreciseSec() - ts_start -- debug
--- 	printf('Needed for bags repair costs:', time_spent) -- debug
+-- 	debugprint('Needed for bags repair costs:', time_spent) -- debug
 	return total
+end
+
+local function get_sound_for_costincrease(diff)
+	for _, v in ipairs(A.SOUNDS_INCREASED_COSTS) do
+		if diff >= v[1] then
+			return v[2]
+		end
+	end
 end
 
 -- @ UPDATE_INVENTORY_DURABILITY
@@ -126,9 +142,8 @@ function A.get_stdrepaircosts(byusercmd)
 	if A.merchant_is_open then return end
 	local stdrepaircosts_inv = get_repaircosts_inv()
 	local stdrepaircosts_bags = get_repaircosts_bags()
--- 		stdrepaircosts_bags = 0 -- debug
 	local stdrepaircosts = stdrepaircosts_inv + stdrepaircosts_bags
--- 		printf(format('Repair costs updated.')) -- debug
+	debugprint 'Repair costs updated.'
 	-- Messages
 	if db.show_increased_costs or byusercmd then
 		local thresh, round_total, round_diff = db.increased_costs_threshold, 'silver', 'copper'
@@ -148,8 +163,7 @@ function A.get_stdrepaircosts(byusercmd)
 		local absdiff_total = abs(diff_total)
 		if absdiff_total >= thresh or absdiff_inv >= thresh or absdiff_bags >= thresh then
 			if db.increased_costs_sound then
-				local sound = thresh == 0 and A.SOUND_INCREASED_COSTS_1 or A.SOUND_INCREASED_COSTS_3
-				PlaySoundFile(sound)
+				PlaySoundFile(get_sound_for_costincrease(diff_total))
 			end
 			if stdrepaircosts_bags == 0 and diff_bags == 0 then
 				addonmsg(format('Inventory (= total) repair costs: %s (%s%s)', GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true), diff_inv >= 0 and '+' or '-', GetMoneyString(roundmoney(absdiff_inv, round_diff), true)))
@@ -164,6 +178,11 @@ function A.get_stdrepaircosts(byusercmd)
 	end
 	A.stdrepaircosts = stdrepaircosts
 end
+
+
+--[[---------------------------------------------------------------------------
+	At the merchant
+---------------------------------------------------------------------------]]--
 
 local discounts = {
 	[0] = 'FF0000',
@@ -194,7 +213,6 @@ function A.autorepair()
 		if actual_costs == 0 then return end
 		local actual_discount = 100 - actual_costs / A.stdrepaircosts * 100
 		local nominal_discount = find_closest_valid_discount(actual_discount)
--- 		printf(format('Raw actual discount: %s; nominal: %s', actual_discount, nominal_discount or 'Failed!')) -- debug
 		-- For debugging, but maybe leave it in as safety.
 		if not nominal_discount then
 			addonmessage(attn_txt(format('We have a calculation mismatch: the computed discount of %s%% does not match any nominal discount (0%%, 5%%, 10%%, 15%%, 20%%)! Probably our last record of the standard repair costs is not accurate or outdated. Aborting auto-repair! (You may try to restart interaction with the merchant.)', actual_discount)))
@@ -205,7 +223,7 @@ function A.autorepair()
 				if CanGuildBankRepair() then -- Not documented? - but it works
 					RepairAllItems(true)
 					if not db[guild].guildmoney_only then
-						RepairAllItems(false) -- Fallback if guild money isn't sufficient
+						RepairAllItems(false) -- Fallback if out of guild funds
 					end
 				elseif not db[guild].guildmoney_only then
 					RepairAllItems(false)
@@ -215,7 +233,7 @@ function A.autorepair()
 			end
 			if db.show_repairsummary then
 				-- Re-calculate repair costs
-				-- This comes to early
+				-- This comes to early w/o timer; TODO: test with different delays
 				C_TimerAfter(1, function()
 					local costs = get_repaircosts_inv() + get_repaircosts_bags()
 					if costs == 0 then
@@ -234,7 +252,9 @@ function A.autorepair()
 end
 
 
--- Slash
+--[[===========================================================================
+	Console
+===========================================================================]]--
 
 local function slash_cmd(msg)
 	local args = strsplittable(' ', strtrim(msg), 2)
@@ -242,7 +262,7 @@ local function slash_cmd(msg)
 		A.get_stdrepaircosts(true)
 	elseif args[1] == 'guild' or args[1] == 'guildonly' and not guild then
 		addonmsg(bad_txt('No guild registered for this char')
-			.. ' --> cannot change guild settings. If you think this char is in a guild, try to reload the UI.')
+			.. ' --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.')
 	elseif args[1] == 'guild' then
 		db[guild].guildmoney_preferred = not db[guild].guildmoney_preferred
 		addonmsg('Prefer guild money for auto repairs: ' .. key_txt(db[guild].guildmoney_preferred))

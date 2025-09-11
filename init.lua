@@ -2,6 +2,7 @@
 -- Copyright (c) 2025 Thomas Floeren
 
 local myname, A = ...
+local myprettyname = C_AddOns.GetAddOnMetadata(myname, "Title")
 
 local _
 
@@ -11,7 +12,7 @@ local defaults = {
 	['default_guildmoney_only'] = false,
 	['show_increased_costs'] = true,
 	['discount_threshold'] = 20,
-	['increased_costs_threshold'] = 10 * 1e4,
+	['increased_costs_threshold'] = 5 * 1e4,
 	['increased_costs_sound'] = true,
 	['show_repairsummary'] = true,
 	['debugmode'] = false,
@@ -30,17 +31,18 @@ A.CLR_ATTN = ORANGE_FONT_COLOR
 A.CLR_BAD = RED_FONT_COLOR
 A.CLR_DEBUG = EXPANSION_COLOR_13
 A.ADDONNAME_SHORT = 'ADR'
-A.ADDONNAME_LONG = myname
+A.ADDONNAME_LONG = myprettyname
 
 A.PREFIX_SHORT = A.CLR_ADDON:WrapTextInColorCode(A.ADDONNAME_SHORT) .. ': '
 A.PREFIX_LONG = A.CLR_ADDON:WrapTextInColorCode(A.ADDONNAME_LONG) .. ': '
 
--- 3744065 Bonesmith Heirmir: Wield your weapon, I keep my hammer.
--- 3722967 Wounded dog, short.
--- 568056 Glass breaking
--- ui_warforged_item_toast_banner.ogg#1237429
--- ui_70_artifact_forge_relic_place_03.ogg#1272544 ; "artifact_forge" has more nice variants
--- sound/music/battleforazeroth/rtc_80_ard_anvil_strike.ogg#2174245 ; nice one!
-A.SOUND_INCREASED_COSTS_1 = 568056
-A.SOUND_INCREASED_COSTS_2 = 2174245
-A.SOUND_INCREASED_COSTS_3 = 3744065
+-- { greater than diff in Gold, Sound ID }
+A.SOUNDS_INCREASED_COSTS = {
+	{10, 2174245},
+	{5, 1272544},
+	{1, 1237429},
+	{0, 568056},
+	{-math.huge, 1451467}, -- costs have decreased
+}
+
+
