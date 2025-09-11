@@ -11,6 +11,7 @@ local defaults = {
 	['default_guildmoney_preferred'] = false,
 	['default_guildmoney_only'] = false,
 	['show_increased_costs'] = true,
+	['guilds'] = {},
 	['discount_threshold'] = 20,
 	['increased_costs_threshold'] = 5 * 1e4,
 	['increased_costs_sound'] = true,
@@ -22,6 +23,17 @@ _G['DB_8552E721_B117_473D_A2D1_3D0939A5338A'] =
 local db = _G['DB_8552E721_B117_473D_A2D1_3D0939A5338A']
 A.db = db
 A.defaults = defaults
+
+local function make_subtables(src, dst)
+	for k, v in pairs(src) do
+		if type(v) == 'table' then
+			dst[k] = dst[k] or {}
+			make_subtables(src[k], dst[k])
+		end
+	end
+end
+
+make_subtables(defaults, db)
 
 A.CLR_ADDON = BLUE_FONT_COLOR
 A.CLR_NEUTRAL = LIGHTYELLOW_FONT_COLOR

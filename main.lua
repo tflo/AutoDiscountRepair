@@ -63,8 +63,8 @@ function A.get_guild()
 		end
 		guild = guild_name .. '-' .. guild_realm
 		debugprint('Guild: ' .. guild .. ' (' .. get_guild_tries .. ')')
-		if guild and not db[guild] then
-			db[guild] = {
+		if guild and not db.guilds[guild] then
+			db.guilds[guild] = {
 				['guildmoney_preferred'] = db['default_guildmoney_preferred'],
 				['guildmoney_only'] = db['default_guildmoney_only'],
 			}
@@ -219,13 +219,13 @@ function A.autorepair()
 			return
 		end
 		if nominal_discount >= db.discount_threshold then
-			if is_in_guild and (db[guild].guildmoney_preferred or db[guild].guildmoney_only) then
+			if is_in_guild and (db.guilds[guild].guildmoney_preferred or db.guilds[guild].guildmoney_only) then
 				if CanGuildBankRepair() then -- Not documented? - but it works
 					RepairAllItems(true)
-					if not db[guild].guildmoney_only then
+					if not db.guilds[guild].guildmoney_only then
 						RepairAllItems(false) -- Fallback if out of guild funds
 					end
-				elseif not db[guild].guildmoney_only then
+				elseif not db.guilds[guild].guildmoney_only then
 					RepairAllItems(false)
 				end
 			else
@@ -238,7 +238,7 @@ function A.autorepair()
 					local costs = get_repaircosts_inv() + get_repaircosts_bags()
 					if costs == 0 then
 						addonmsg(format('Repaired for %s (%s discount)', GetMoneyString(roundmoney(actual_costs, 'silver'), true), WrapTextInColorCode(nominal_discount .. '%', 'ff' .. discounts[nominal_discount])))
-					elseif db[guild].guildmoney_only then
+					elseif db.guilds[guild].guildmoney_only then
 						addonmsg('Your gear was not (or not entirely) repaired. This is probably because of your ' .. attn_txt('guildonly') .. ' setting.')
 					else
 						addonmsg('Your gear was not (or not entirely) repaired. Did you run out of money?')
@@ -264,11 +264,11 @@ local function slash_cmd(msg)
 		addonmsg(bad_txt('No guild registered for this char')
 			.. ' --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.')
 	elseif args[1] == 'guild' then
-		db[guild].guildmoney_preferred = not db[guild].guildmoney_preferred
-		addonmsg('Prefer guild funds for auto-repairs: ' .. key_txt(db[guild].guildmoney_preferred))
+		db.guilds[guild].guildmoney_preferred = not db.guilds[guild].guildmoney_preferred
+		addonmsg('Prefer guild funds for auto-repairs: ' .. key_txt(db.guilds[guild].guildmoney_preferred))
 	elseif args[1] == 'guildonly' then
-		db[guild].guildmoney_only = not db[guild].guildmoney_only
-		addonmsg('Use exclusively guild funds for auto-repairs: ' .. key_txt(db[guild].guildmoney_only))
+		db.guilds[guild].guildmoney_only = not db.guilds[guild].guildmoney_only
+		addonmsg('Use exclusively guild funds for auto-repairs: ' .. key_txt(db.guilds[guild].guildmoney_only))
 	elseif args[1] == 'summary' then
 		db.show_repairsummary = not db.show_repairsummary
 		addonmsg('Print summary at merchant: ' .. key_txt(db.show_repairsummary))
@@ -290,9 +290,9 @@ local function slash_cmd(msg)
 			addon_txt(A.ADDONNAME_LONG) .. neutral_txt(' help:'),
 			key_txt('/adr') .. neutral_txt(' accepts these arguments [type; current value (default)]:'),
 			key_txt('guild') .. ' : Prefer guild funds for auto-repairs [toggle; '
-				.. good_txt(db[guild].guildmoney_preferred) .. ' (' .. tostring(A.defaults.default_guildmoney_preferred) ..')].',
+				.. good_txt(db.guilds[guild].guildmoney_preferred) .. ' (' .. tostring(A.defaults.default_guildmoney_preferred) ..')].',
 			key_txt('guildonly') .. ' : Use exclusively guild funds for auto-repairs [toggle; '
-				.. good_txt(db[guild].guildmoney_only) .. ' (' .. tostring(A.defaults.default_guildmoney_only)
+				.. good_txt(db.guilds[guild].guildmoney_only) .. ' (' .. tostring(A.defaults.default_guildmoney_only)
 				.. ')]. If enabled, this implies "Prefer guild funds".',
 			key_txt('0%||5%||10%||15%||20%||max') .. ' : Discount threshold [percent; '
 				.. good_txt(db.discount_threshold .. '%') .. ' (' .. A.defaults.discount_threshold ..'%)].',
