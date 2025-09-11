@@ -28,13 +28,13 @@ The most important argument is `help` (or `h`). The command `/adr help` or `/adr
 
 The `/adr` command understands the following arguments (settings); most of them are toggles (true/false):
 
-- `guild` : Prefer guild money for auto repairs [toggle; default: false].
-- `guildonly` : Use exclusively guild money for auto repairs [toggle; default: false].
+- `guild` : Prefer guild funds for auto-repairs [toggle; default: false].
+- `guildonly` : Use _exclusively_ guild funds for auto-repairs [toggle; default: false]. If enabled, this implies “Prefer guild funds”.
 - `0%||5%||10%||15%||20%||max` : Discount threshold; `max` = `20%` [percent; default: 20%].
-- `summary` : Show summary at the merchant [toggle; default: true].
-- `costs` : Show current repair costs when they increase [toggle; default: true]. This prints your current repair costs to the chat after your gear has suffered durability loss.
-- `<number>` : Required increment threshold for printing the repair costs [amount in Gold;  default: 10]. This requires the `costs` option to be true.
-- `sound` : Play a little sound whenever the increased repair costs are printed [toggle; default: true]. This requires the `costs` option to be true.
+- `summary` : Print summary at repair merchant [toggle; default: true].
+- `costs` : Print the current repair costs when they increase [toggle; default: true]. This prints your current repair costs to the chat after your gear has suffered durability loss.
+- `<number>` : Minimum cost increase to print a new message [difference in Gold;  default: 5]. This requires the `costs` option to be enabled.
+- `sound` : Play a little sound whenever the increased repair costs are printed [toggle; default: true]. This requires the `costs` option to be enabled.
 - `help` or `h` : Shows the Help text, with a list of all arguments and the current settings.
 
 All settings are account-wide, except for the guild-related settings. These are per guild.

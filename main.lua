@@ -268,25 +268,25 @@ local function slash_cmd(msg)
 	elseif args[1] == 'help' or args[1] == 'h' then
 		local lines = {
 			addon_txt(ADDONNAME_LONG) .. neutral_txt(' help:'),
-			key_txt('/adr') .. neutral_txt(' understands these arguments [type; current value (default)]:'),
-			key_txt('guild') .. ' : Prefer guild money for auto repairs [toggle; '
+			key_txt('/adr') .. neutral_txt(' accepts these arguments [type; current value (default)]:'),
+			key_txt('guild') .. ' : Prefer guild funds for auto-repairs [toggle; '
 				.. good_txt(db[guild].guildmoney_preferred) .. ' (' .. tostring(A.defaults.default_guildmoney_preferred) ..')].',
-			key_txt('guildonly') .. ' : Use exclusively guild money for auto repairs [toggle; '
+			key_txt('guildonly') .. ' : Use exclusively guild funds for auto-repairs [toggle; '
 				.. good_txt(db[guild].guildmoney_only) .. ' (' .. tostring(A.defaults.default_guildmoney_only)
-				.. ')]. If true, this implies "Prefer guild money".',
+				.. ')]. If enabled, this implies "Prefer guild funds".',
 			key_txt('0%||5%||10%||15%||20%||max') .. ' : Discount threshold [percent; '
-				.. good_txt(db.discount_threshold .. '%') .. ' (' .. defaults.discount_threshold ..'%)].',
-			key_txt('summary') .. ' : Print summary at merchant [toggle; ' .. good_txt(db.show_repairsummary)
+				.. good_txt(db.discount_threshold .. '%') .. ' (' .. A.defaults.discount_threshold ..'%)].',
+			key_txt('summary') .. ' : Print summary at repair merchant [toggle; ' .. good_txt(db.show_repairsummary)
 				.. ' (' .. tostring(A.defaults.show_repairsummary) ..')].',
-			key_txt('costs') .. ' : Print the current repair costs when they have increased [toggle; '
+			key_txt('costs') .. ' : Print the current repair costs when they increase [toggle; '
 				.. good_txt(db.show_increased_costs) .. ' (' .. tostring(A.defaults.show_increased_costs) ..')].',
-			key_txt('<number>') .. ' : Increment for printing the repair costs [amount in Gold; '
-				.. good_txt(db.increased_costs_threshold/1e4) .. ' (' .. defaults.increased_costs_threshold/1e4
-				..')]. This requires the ' .. key_txt('costs') .. ' option to be true.',
+			key_txt('<number>') .. ' : Minimum cost increase to print a new message [difference in Gold; '
+				.. good_txt(db.increased_costs_threshold/1e4) .. ' (' .. A.defaults.increased_costs_threshold/1e4
+				..')]. This requires the ' .. key_txt('costs') .. ' option to be enabled.',
 			key_txt('sound') .. ' : Play a sound when increased repair costs are printed [toggle; '
 				.. good_txt(db.increased_costs_sound) .. ' (' .. tostring(A.defaults.increased_costs_sound)
-				..')]. This requires the ' .. key_txt('costs') .. ' option to be true.',
-			key_txt('help') .. ' or ' .. key_txt('h') .. ' : This help text.',
+				..')]. This requires the ' .. key_txt('costs') .. ' option to be enabled.',
+			key_txt('help') .. ' or ' .. key_txt('h') .. ' : Print this help text.',
 		}
 		for _, line in ipairs(lines) do
 			print(line)
