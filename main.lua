@@ -265,29 +265,29 @@ local function slash_cmd(msg)
 			.. ' --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.')
 	elseif args[1] == 'guild' then
 		db[guild].guildmoney_preferred = not db[guild].guildmoney_preferred
-		addonmsg('Prefer guild money for auto repairs: ' .. key_txt(db[guild].guildmoney_preferred))
+		addonmsg('Prefer guild funds for auto-repairs: ' .. key_txt(db[guild].guildmoney_preferred))
 	elseif args[1] == 'guildonly' then
 		db[guild].guildmoney_only = not db[guild].guildmoney_only
-		addonmsg('Use exclusively guild money for auto repairs: ' .. key_txt(db[guild].guildmoney_only))
+		addonmsg('Use exclusively guild funds for auto-repairs: ' .. key_txt(db[guild].guildmoney_only))
 	elseif args[1] == 'summary' then
 		db.show_repairsummary = not db.show_repairsummary
 		addonmsg('Print summary at merchant: ' .. key_txt(db.show_repairsummary))
-	elseif args[1] == 'costs' then
+	elseif args[1] == 'costs' or args[1] == 'cost' then
 		db.show_increased_costs = not db.show_increased_costs
-		addonmsg('Print the current repair costs when they have increased: ' .. key_txt(db.show_increased_costs))
+		addonmsg('Print the current repair costs when they increase: ' .. key_txt(db.show_increased_costs))
 	elseif args[1] == 'sound' then
 		db.increased_costs_sound = not db.increased_costs_sound
 		addonmsg('Play a sound when increased repair costs are printed: ' .. key_txt(db.increased_costs_sound))
-	elseif args[1]:sub(-1, -1) == '%' or args[1] == 'max' then
+	elseif args[1] == 'max' or args[1]:match("^%d?%d%%$") then
 		local value = args[1] == 'max' and 20 or tonumber(args[1]:sub(1, -2))
-		db.discount_threshold = max(min(value, 20), 0)
+		db.discount_threshold = min(value, 20)
 		addonmsg('Discount threshold: ' .. key_txt(db.discount_threshold .. '%'))
 	elseif tonumber(args[1]) then
 		db.increased_costs_threshold = tonumber(args[1]) * 1e4
-		addonmsg('Increment for printing the repair costs: ' .. key_txt(db.increased_costs_threshold/1e4) .. ' Gold')
+		addonmsg('Minimum cost increase to print a new message: ' .. key_txt(db.increased_costs_threshold/1e4) .. ' Gold')
 	elseif args[1] == 'help' or args[1] == 'h' then
 		local lines = {
-			addon_txt(ADDONNAME_LONG) .. neutral_txt(' help:'),
+			addon_txt(A.ADDONNAME_LONG) .. neutral_txt(' help:'),
 			key_txt('/adr') .. neutral_txt(' accepts these arguments [type; current value (default)]:'),
 			key_txt('guild') .. ' : Prefer guild funds for auto-repairs [toggle; '
 				.. good_txt(db[guild].guildmoney_preferred) .. ' (' .. tostring(A.defaults.default_guildmoney_preferred) ..')].',
