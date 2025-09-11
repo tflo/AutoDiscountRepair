@@ -12,7 +12,7 @@
 # LoadWith:
 # LoadOnDemand:
 
-# X-Curse-Project-ID:
+## X-Curse-Project-ID: 1345394
 # X-Wago-ID:
 ## AllowAddOnTableAccess: 1
 ## LoadSavedVariablesFirst: 1
