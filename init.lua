@@ -2,7 +2,6 @@
 -- Copyright (c) 2025 Thomas Floeren
 
 local myname, A = ...
-A.debug = true
 
 local _
 
@@ -15,6 +14,7 @@ local defaults = {
 	['increased_costs_threshold'] = 10 * 1e4,
 	['increased_costs_sound'] = true,
 	['show_repairsummary'] = true,
+	['debugmode'] = false,
 }
 _G['DB_8552E721_B117_473D_A2D1_3D0939A5338A'] =
 	setmetatable(_G['DB_8552E721_B117_473D_A2D1_3D0939A5338A'] or {}, { __index = defaults })

@@ -3,7 +3,6 @@
 
 local myname, A = ...
 local db = A.db
-local debug = A.debug
 local myprettyname = C_AddOns.GetAddOnMetadata(myname, "Title")
 
 
@@ -41,7 +40,7 @@ end
 A.addonmessage = addonmessage
 
 local function debugprint(text)
-	if not debug then return end
+	if not db.debugmode then return end
 	print(A.PREFIX_SHORT .. A.CLR_DEBUG:WrapTextInColorCode(text))
 end
 A.debugprint = debugprint
@@ -292,6 +291,9 @@ local function slash_cmd(msg)
 		for _, line in ipairs(lines) do
 			print(line)
 		end
+	elseif args[1] == 'dm' then
+		db.debugmode = not db.debugmode
+		addonmsg('Debug mode: ' .. key_txt(db.debugmode))
 	else
 		addonmsg(bad_txt('Invalid argument(s).') .. ' Type ' .. key_txt('/adr help') .. ' for a list of arguments.')
 	end
