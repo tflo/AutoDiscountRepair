@@ -5,6 +5,11 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 0.6.3 (2025-09-12)
+
+- Refactored init and events.
+- Reformatting.
+
 #### 0.6.2 (2025-09-12)
 
 - Slight change to the DB structure.

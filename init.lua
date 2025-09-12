@@ -3,7 +3,7 @@
 
 local myname, A = ...
 local myprettyname = C_AddOns.GetAddOnMetadata(myname, "Title")
-
+local DB_ID = 'DB_8552E721_B117_473D_A2D1_3D0939A5338A'
 local _
 
 
@@ -24,22 +24,25 @@ local defaults = {
 	['show_repairsummary'] = true,
 	['debugmode'] = false,
 }
-_G['DB_8552E721_B117_473D_A2D1_3D0939A5338A'] =
-	setmetatable(_G['DB_8552E721_B117_473D_A2D1_3D0939A5338A'] or {}, { __index = defaults })
-local db = _G['DB_8552E721_B117_473D_A2D1_3D0939A5338A']
-A.db = db
-A.defaults = defaults
 
-local function make_subtables(src, dst)
+local function merge_defaults(src, dst)
 	for k, v in pairs(src) do
 		if type(v) == 'table' then
-			dst[k] = dst[k] or {}
-			make_subtables(src[k], dst[k])
+			if type(dst[k]) ~= 'table' then dst[k] = {} end
+			merge_defaults(v, dst[k])
+		else
+			if dst[k] == nil or type(dst[k]) ~= type(v) then
+				dst[k] = v
+			end
 		end
 	end
 end
 
-make_subtables(defaults, db)
+_G[DB_ID] = _G[DB_ID] or {}
+merge_defaults(defaults, _G[DB_ID])
+local db = _G[DB_ID]
+A.db = db
+A.defaults = defaults
 
 
 --[[===========================================================================
