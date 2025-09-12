@@ -33,9 +33,7 @@ local function PLAYER_INTERACTION_MANAGER_FRAME_HIDE(...)
 	end
 end
 
-local function PLAYER_LOGIN()
-	C_TimerAfter(5, A.get_guild)
-end
+-- local function PLAYER_LOGIN() C_TimerAfter(5, A.get_guild) end
 
 -- Guild info is often not available shortly after login, so better use PEW with adaptive delays.
 local function PLAYER_ENTERING_WORLD(login, reload)
@@ -56,9 +54,8 @@ local function UPDATE_INVENTORY_DURABILITY()
 	end)
 end
 
-
 local event_handlers = {
--- 	['PLAYER_LOGIN'] = PLAYER_LOGIN,
+	-- ['PLAYER_LOGIN'] = PLAYER_LOGIN,
 	['PLAYER_ENTERING_WORLD'] = PLAYER_ENTERING_WORLD,
 	['PLAYER_INTERACTION_MANAGER_FRAME_SHOW'] = PLAYER_INTERACTION_MANAGER_FRAME_SHOW,
 	['PLAYER_INTERACTION_MANAGER_FRAME_HIDE'] = PLAYER_INTERACTION_MANAGER_FRAME_HIDE,
