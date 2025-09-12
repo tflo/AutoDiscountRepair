@@ -10,14 +10,6 @@ local C_TimerAfter = C_Timer.After
 
 
 
-local ef = CreateFrame('Frame', myname .. '_eventframe')
-
-ef:RegisterEvent 'PLAYER_INTERACTION_MANAGER_FRAME_SHOW'
-ef:RegisterEvent 'PLAYER_INTERACTION_MANAGER_FRAME_HIDE'
-ef:RegisterEvent 'UPDATE_INVENTORY_DURABILITY'
-ef:RegisterEvent 'PLAYER_ENTERING_WORLD'
--- ef:RegisterEvent 'PLAYER_LOGIN'
-
 local function PLAYER_INTERACTION_MANAGER_FRAME_SHOW(...)
 	if ... == Enum.PlayerInteractionType.Merchant then -- Merchant 5
 		debugprint('Merchant opened')
@@ -54,6 +46,13 @@ local function UPDATE_INVENTORY_DURABILITY()
 	end)
 end
 
+
+--------------------------------------------------------------------------------
+-- Event frame, handlers, and registration
+--------------------------------------------------------------------------------
+
+local ef = CreateFrame('Frame', myname .. '_eventframe')
+
 local event_handlers = {
 	-- ['PLAYER_LOGIN'] = PLAYER_LOGIN,
 	['PLAYER_ENTERING_WORLD'] = PLAYER_ENTERING_WORLD,
@@ -62,7 +61,10 @@ local event_handlers = {
 	['UPDATE_INVENTORY_DURABILITY'] = UPDATE_INVENTORY_DURABILITY,
 }
 
+for event in pairs(event_handlers) do
+	ef:RegisterEvent(event)
+end
+
 ef:SetScript('OnEvent', function(_, event, ...)
-	local handler = event_handlers[event]
-	if handler then handler(...) end
+	event_handlers[event](...) -- We do not want a nil check here
 end)
