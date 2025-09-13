@@ -339,112 +339,131 @@ end
 	Console
 ===========================================================================]]--
 
+
 local function slash_cmd(msg)
 	local args = strsplittable(' ', strtrim(msg), 2)
 	if not args[1] or args[1] == '' then
 		A.get_stdrepaircosts(true)
 	elseif args[1] == 'guild' or args[1] == 'guildonly' and not guild then
 		addonmsg(
-			bad_txt('No guild registered for this char')
-				.. ' --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.'
+			format(
+				'%s --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.',
+				bad_txt('No guild registered for this char')
+			)
 		)
 	elseif args[1] == 'guild' then
 		db.guilds[guild].guildmoney_preferred = not db.guilds[guild].guildmoney_preferred
 		addonmsg(
-			'Prefer guild funds for auto-repairs: '
-				.. key_txt(db.guilds[guild].guildmoney_preferred)
+			format(
+				'Prefer guild funds for auto-repairs: %s',
+				key_txt(db.guilds[guild].guildmoney_preferred)
+			)
 		)
 	elseif args[1] == 'guildonly' then
 		db.guilds[guild].guildmoney_only = not db.guilds[guild].guildmoney_only
 		addonmsg(
-			'Use exclusively guild funds for auto-repairs: '
-				.. key_txt(db.guilds[guild].guildmoney_only)
+			format(
+				'Use exclusively guild funds for auto-repairs: %s',
+				key_txt(db.guilds[guild].guildmoney_only)
+			)
 		)
 	elseif args[1] == 'summary' then
 		db.show_repairsummary = not db.show_repairsummary
-		addonmsg('Print summary at merchant: ' .. key_txt(db.show_repairsummary))
+		addonmsg(format('Print summary at merchant: %s', key_txt(db.show_repairsummary)))
 	elseif args[1] == 'costs' or args[1] == 'cost' then
 		db.show_increased_costs = not db.show_increased_costs
 		addonmsg(
-			'Print the current repair costs when they increase: '
-				.. key_txt(db.show_increased_costs)
+			format(
+				'Print the current repair costs when they increase: %s',
+				key_txt(db.show_increased_costs)
+			)
 		)
 	elseif args[1] == 'sound' then
 		db.increased_costs_sound = not db.increased_costs_sound
 		addonmsg(
-			'Play a sound when increased repair costs are printed: '
-				.. key_txt(db.increased_costs_sound)
+			format(
+				'Play a sound when increased repair costs are printed: %s',
+				key_txt(db.increased_costs_sound)
+			)
 		)
 	elseif args[1] == 'max' or args[1]:match('^%d?%d%%$') then
 		local value = args[1] == 'max' and 20 or tonumber(args[1]:sub(1, -2))
 		db.discount_threshold = min(value, 20)
-		addonmsg('Discount threshold: ' .. key_txt(db.discount_threshold .. '%'))
+		addonmsg(format('Discount threshold: %s', key_txt(db.discount_threshold .. '%')))
 	elseif tonumber(args[1]) then
 		db.increased_costs_threshold = tonumber(args[1]) * 1e4
 		addonmsg(
-			'Minimum cost increase to print a new message: '
-				.. key_txt(db.increased_costs_threshold / 1e4)
-				.. ' Gold'
+			format(
+				'Minimum cost increase to print a new message: %s Gold',
+				key_txt(db.increased_costs_threshold / 1e4)
+			)
 		)
 	elseif args[1] == 'help' or args[1] == 'h' then
 		local lines = {
-			addon_txt(A.ADDONNAME_LONG) .. neutral_txt(' help:'),
-			key_txt('/adr')
-				.. neutral_txt(' accepts these arguments [type; current value (default)]:'),
-			key_txt('guild') .. ' : Prefer guild funds for auto-repairs [toggle; ' .. good_txt(
-				db.guilds[guild].guildmoney_preferred
-			) .. ' (' .. tostring(A.defaults.default_guildmoney_preferred) .. ')].',
-			key_txt('guildonly')
-				.. ' : Use exclusively guild funds for auto-repairs [toggle; '
-				.. good_txt(db.guilds[guild].guildmoney_only)
-				.. ' ('
-				.. tostring(A.defaults.default_guildmoney_only)
-				.. ')]. If enabled, this implies "Prefer guild funds".',
-			key_txt('0%||5%||10%||15%||20%||max')
-				.. ' : Discount threshold [percent; '
-				.. good_txt(db.discount_threshold .. '%')
-				.. ' ('
-				.. A.defaults.discount_threshold
-				.. '%)].',
-			key_txt('summary') .. ' : Print summary at repair merchant [toggle; ' .. good_txt(
-				db.show_repairsummary
-			) .. ' (' .. tostring(A.defaults.show_repairsummary) .. ')].',
-			key_txt('costs')
-				.. ' : Print the current repair costs when they increase [toggle; '
-				.. good_txt(db.show_increased_costs)
-				.. ' ('
-				.. tostring(A.defaults.show_increased_costs)
-				.. ')].',
-			key_txt('<number>')
-				.. ' : Minimum cost increase to print a new message [difference in Gold; '
-				.. good_txt(db.increased_costs_threshold / 1e4)
-				.. ' ('
-				.. A.defaults.increased_costs_threshold / 1e4
-				.. ')]. This requires the '
-				.. key_txt('costs')
-				.. ' option to be enabled.',
-			key_txt('sound')
-				.. ' : Play a sound when increased repair costs are printed [toggle; '
-				.. good_txt(db.increased_costs_sound)
-				.. ' ('
-				.. tostring(A.defaults.increased_costs_sound)
-				.. ')]. This requires the '
-				.. key_txt('costs')
-				.. ' option to be enabled.',
-			key_txt('help') .. ' or ' .. key_txt('h') .. ' : Print this help text.',
+			format('%s help:', addon_txt(A.ADDONNAME_LONG)),
+			format(
+				'%s accepts these arguments [type; current value (default)]:',
+				key_txt('/adr')
+			),
+			format(
+				'%s : Prefer guild funds for auto-repairs [toggle; %s (%s)].',
+				key_txt('guild'),
+				good_txt(db.guilds[guild].guildmoney_preferred),
+				tostring(A.defaults.default_guildmoney_preferred)
+			),
+			format(
+				'%s : Use exclusively guild funds for auto-repairs [toggle; %s (%s)]. If enabled, this implies "Prefer guild funds".',
+				key_txt('guildonly'),
+				good_txt(db.guilds[guild].guildmoney_only),
+				tostring(A.defaults.default_guildmoney_only)
+			),
+			format(
+				'%s : Discount threshold [percent; %s (%s%%)].',
+				key_txt('0%||5%||10%||15%||20%||max'),
+				good_txt(db.discount_threshold .. '%'),
+				A.defaults.discount_threshold
+			),
+			format(
+				'%s : Print summary at repair merchant [toggle; %s (%s)].',
+				key_txt('summary'),
+				good_txt(db.show_repairsummary),
+				tostring(A.defaults.show_repairsummary)
+			),
+			format(
+				'%s : Print the current repair costs when they increase [toggle; %s (%s)].',
+				key_txt('costs'),
+				good_txt(db.show_increased_costs),
+				tostring(A.defaults.show_increased_costs)
+			),
+			format(
+				'%s : Minimum cost increase to print a new message [difference in Gold; %s (%s)]. This requires the %s option to be enabled.',
+				key_txt('<number>'),
+				good_txt(db.increased_costs_threshold / 1e4),
+				A.defaults.increased_costs_threshold / 1e4,
+				key_txt('costs')
+			),
+			format(
+				'%s : Play a sound when increased repair costs are printed [toggle; %s (%s)]. This requires the %s option to be enabled.',
+				key_txt('sound'),
+				good_txt(db.increased_costs_sound),
+				tostring(A.defaults.increased_costs_sound),
+				key_txt('costs')
+			),
+			format('%s or %s : Print this help text.', key_txt('help'), key_txt('h')),
 		}
 		for _, line in ipairs(lines) do
 			print(line)
 		end
 	elseif args[1] == 'dm' then
 		db.debugmode = not db.debugmode
-		addonmsg('Debug mode: ' .. key_txt(db.debugmode))
+		addonmsg(format('Debug mode: %s', key_txt(db.debugmode)))
 	else
 		addonmsg(
-			bad_txt('Invalid argument(s).')
-				.. ' Type '
-				.. key_txt('/adr help')
-				.. ' for a list of arguments.'
+			format(
+				'%s Type %s for a list of arguments.',
+				bad_txt('Invalid argument(s).'),
+				key_txt('/adr help')
+			)
 		)
 	end
 end
