@@ -5,6 +5,11 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 0.6.4 (2025-09-13)
+
+- Fixed bug when toggling the `guild` setting.
+- Refactored slash cmd.
+
 #### 0.6.3 (2025-09-12)
 
 - Refactored init and events.

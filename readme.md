@@ -6,6 +6,8 @@ Automatically repair your gear – where it’s cheap.
 
 As of 11 Sep 2025 and version 0.6.X, this addon is still in an early stage. It’s likely that we will have to squish a few more bugs ;) You can help by reporting bugs (or suggestions) to the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) of the repo! (Please do not post issues/suggestions to the CurseForge comments.)
 
+___If you’re having trouble reading this description on CurseForge, you might want to try switching to the [REPO PAGE](https://github.com/tflo/AutoDiscountRepair#auto-discount-repair). You’ll find the exact same text there, but it’s much easier to read and free from CurseForge’s rendering errors.___
+
 ## What the addon does
 
 In Modern WoW, the repair discount you can get at a specific merchant depends on the merchant’s faction’s reaction towards your toon (0–20% discount). 
