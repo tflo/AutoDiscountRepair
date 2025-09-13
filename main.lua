@@ -344,7 +344,7 @@ local function slash_cmd(msg)
 	local args = strsplittable(' ', strtrim(msg), 2)
 	if not args[1] or args[1] == '' then
 		A.get_stdrepaircosts(true)
-	elseif args[1] == 'guild' or args[1] == 'guildonly' and not guild then
+	elseif (args[1] == 'guild' or args[1] == 'guildonly') and not guild then
 		addonmsg(
 			format(
 				'%s --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.',
