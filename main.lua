@@ -56,38 +56,45 @@ A.debugprint = debugprint
 -- guild. Until then the addon will use outdated guild settings.
 -- If there was a dedicated player_left_guild event, we would use that, but
 -- PLAYER_GUILD_UPDATE fires too often and for unrelated reasons.
-local guild, is_in_guild, getguild_tries = nil, nil, 0
+local guild = nil
+local max_retries = 3
 function A.get_guild()
-	if IsInGuild() then
-		getguild_tries = getguild_tries + 1
-		is_in_guild = true
+	if not IsInGuild() then
+		debugprint('Not in guild.')
+		return
+	end
+	local tries = 0
+	local function try_get_guild()
+		tries = tries + 1
 		local guild_name, _, _, guild_realm = GetGuildInfo('player')
 		guild_realm = guild_realm or GetNormalizedRealmName()
-		if not guild_name or not guild_realm then
+		if not (guild_name and guild_realm) then
 			debugprint(
-				'Player is in guild, but I was unable to retrieve the guild info! ('
-					.. getguild_tries
-					.. ', '
-					.. (guild_name or 'NO NAME')
-					.. ', '
-					.. (guild_realm or 'NO REALM')
-					.. ')'
+				format(
+					'Guild info fetch failed (try %s): %s, %s',
+					tries,
+					guild_name or 'NO NAME',
+					guild_realm or 'NO REALM'
+				)
 			)
-			if getguild_tries <= 3 then C_TimerAfter(10, get_guild) end
+			if tries < max_retries then
+				C_TimerAfter(15, try_get_guild)
+			else
+				debugprint(format('Max retries (%s) reached, no guild set.', max_retries))
+			end
 			return
 		end
 		guild = guild_name .. '-' .. guild_realm
-		debugprint('Guild: ' .. guild .. ' (' .. getguild_tries .. ')')
+		debugprint(format('Guild set: %s (try %s)', guild, tries))
 		if guild and not db.guilds[guild] then
 			db.guilds[guild] = {
 				['guildmoney_preferred'] = db['default_guildmoney_preferred'],
 				['guildmoney_only'] = db['default_guildmoney_only'],
 			}
-			debugprint('Guild is new')
+			debugprint('Initialized new guild settings.')
 		end
-	else
-		debugprint('IsInGuild() --> false')
 	end
+	try_get_guild()
 end
 
 
@@ -275,7 +282,7 @@ function A.autorepair()
 		end
 		if nominal_discount >= db.discount_threshold then
 			if
-				is_in_guild
+				guild
 				and (db.guilds[guild].guildmoney_preferred or db.guilds[guild].guildmoney_only)
 			then
 				if CanGuildBankRepair() then -- Not documented? - but it works
