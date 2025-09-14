@@ -53,19 +53,30 @@ A.debugprint = debugprint
 	Main
 ===========================================================================]]--
 
--- @ login
--- We check for guild only at session begin, because we do not want to make
--- calls during the rest of the session that are completely redundant in 99% of
+-- Getting the guild name is crucial, otherwise players who opted to drain guild
+-- funds for repair would have a bad surprise. (Guild settings are per guild.)
+-- But the guild server API (namely `GetGuildInfo`) is wonky after login and
+-- especially under lag conditions. So, we use delays (see events.lua), repeat
+-- the fetch attempt a number of times, and print fat red messages to the
+-- console, if we can't fetch.
+-- `IsInGuild` is much more reliable and we use this to find out if the player
+-- is in a guild at all. But it also may (rarely) erroneously return false; our
+-- delays should help, but if not, we can't do anything at all, since we do not
+-- know then if the char is in a guild. So we can't even print warnings, as
+-- these would also reach legit guildless chars.
+-- Leaving/joining: We check for guild only at session begin, because we do not
+-- want to make repeated calls during the session that are redundant in 98% of
 -- the cases. So, the player should reload if they leave, join or change the
--- guild. Until then the addon will use outdated guild settings.
--- If there was a dedicated player_left_guild event, we would use that, but
--- PLAYER_GUILD_UPDATE fires too often and for unrelated reasons.
+-- guild. Until then the addon will use potentially inappropriate guild
+-- settings. If there was a dedicated player-left/joined-guild event, we would
+-- use that, but PLAYER_GUILD_UPDATE fires way too often and for unrelated
+-- reasons.
 local guild = nil
 local max_retries = 3
 local delay_retry = 20
-function A.get_guild()
+function A.get_guild() -- @ login
 	if not IsInGuild() then
-		debugprint('Not in guild.')
+		debugprint('Not in guild (IsInGuild returned false).')
 		return
 	end
 	local tries = 0
@@ -180,7 +191,7 @@ function A.get_stdrepaircosts(byusercmd)
 	local stdrepaircosts_inv = get_repaircosts_inv()
 	local stdrepaircosts_bags = get_repaircosts_bags()
 	local stdrepaircosts = stdrepaircosts_inv + stdrepaircosts_bags
-	debugprint 'Repair costs updated.'
+	debugprint('Repair costs updated.')
 	-- Messages
 	if db.show_increased_costs or byusercmd then
 		local thresh, round_total, round_diff = db.increased_costs_threshold, 'silver', 'copper'

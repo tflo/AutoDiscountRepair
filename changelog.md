@@ -5,6 +5,14 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 0.7.0 (2025-09-14)
+
+- The player now gets fat red warnings if the attempts to fetch guild info fail (after login).
+    - Important because retrieving the guild name is crucial for applying the correct guild-related settings (paying with guild funds).
+- Longer delays after login before fetching guild info.
+- Longer delays between the retries to fetch guild info.
+- Code optimizations, better comments and debug.
+
 #### 0.6.4 (2025-09-13)
 
 - Fixed bug when toggling the `guild` setting.
