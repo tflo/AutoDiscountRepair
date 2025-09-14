@@ -74,6 +74,14 @@ function A.get_guild()
 		local guild_name, _, _, guild_realm = GetGuildInfo('player')
 		guild_realm = guild_realm or GetNormalizedRealmName()
 		if not (guild_name and guild_realm) then
+			addonmessage(
+				format(
+					'Warning: Guild info unavailable (try %s). Possible server lag.%s Auto-repairs you’ll do now will be paid with your personal funds!',
+					tries,
+					tries < max_retries and ' Retrying in ' .. delay_retry .. ' seconds.' or ''
+				),
+				A.CLR_BAD
+			)
 			debugprint(
 				format(
 					'Guild info fetch failed (try %s): %s, %s',
@@ -85,6 +93,10 @@ function A.get_guild()
 			if tries < max_retries then
 				C_TimerAfter(delay_retry, try_get_guild)
 			else
+				addonmessage(
+					'Final Warning: Guild data not retrieved. Probably server lag. Please wait, then reload or relog. All auto-repairs will be paid with your personal funds until reload or relog!',
+					A.CLR_BAD
+				)
 				debugprint(format('Max retries (%s) reached, no guild set.', max_retries))
 			end
 			return
