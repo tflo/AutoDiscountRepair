@@ -58,6 +58,7 @@ A.debugprint = debugprint
 -- PLAYER_GUILD_UPDATE fires too often and for unrelated reasons.
 local guild = nil
 local max_retries = 3
+local delay_retry = 20
 function A.get_guild()
 	if not IsInGuild() then
 		debugprint('Not in guild.')
@@ -78,7 +79,7 @@ function A.get_guild()
 				)
 			)
 			if tries < max_retries then
-				C_TimerAfter(15, try_get_guild)
+				C_TimerAfter(delay_retry, try_get_guild)
 			else
 				debugprint(format('Max retries (%s) reached, no guild set.', max_retries))
 			end

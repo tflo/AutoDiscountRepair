@@ -28,9 +28,9 @@ end
 -- local function PLAYER_LOGIN() C_TimerAfter(5, A.get_guild) end
 
 -- Guild info is often not available shortly after login, so better use PEW with adaptive delays.
-local function PLAYER_ENTERING_WORLD(login, reload)
-	if not login and not reload then return end
-	local delay = login and 5 or 1
+local function PLAYER_ENTERING_WORLD(is_login, is_reload)
+	if not is_login and not is_reload then return end
+	local delay = is_login and 10 or 5
 	C_TimerAfter(delay, A.get_guild)
 end
 
