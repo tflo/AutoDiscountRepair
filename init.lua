@@ -27,16 +27,14 @@ local defaults = {
 
 local function merge_defaults(src, dst)
 	for k, v in pairs(src) do
-		local dst_val = dst[k]
-		local src_type = type(v)
-		local dst_type = type(dst_val)
+		local src_type, dst_val = type(v), dst[k]
 		if src_type == 'table' then
-			if dst_type ~= 'table' then
+			if type(dst_val) ~= 'table' then
 				dst_val = {}
 				dst[k] = dst_val
 			end
 			merge_defaults(v, dst_val)
-		elseif dst_type ~= src_type then
+		elseif type(dst_val) ~= src_type then
 			dst[k] = v
 		end
 	end
