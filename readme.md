@@ -4,13 +4,15 @@ Automatically repair your gear – where it’s cheap.
 
 ## Preliminary
 
-As of 11 Sep 2025 and version 0.6.X, this addon is still in an early stage. It’s likely that we will have to squish a few more bugs ;) You can help by reporting bugs (or suggestions) to the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) of the repo! (Please do not post issues/suggestions to the CurseForge comments.)
+As of 14 Sep 2025 and version 0.7.0, this addon is still in an early stage. It’s likely that we will have to squish a few more bugs ;) You can help by reporting bugs (or suggestions) to the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) of the repo! (Please do not post issues/suggestions to the CurseForge comments.)
 
 ___If you’re having trouble reading this description on CurseForge, you might want to try switching to the [REPO PAGE](https://github.com/tflo/AutoDiscountRepair#auto-discount-repair). You’ll find the exact same text there, but it’s much easier to read and free from CurseForge’s rendering errors.___
 
 ## What the addon does
 
-In Modern WoW, the repair discount you can get at a specific merchant depends on the merchant’s faction’s reaction towards your toon (0–20% discount). 
+There are many addons with auto-repair functionality, but we try to handle it smart.
+
+In Modern WoW, you can get a discount when repairing gear at a repair merchant. This faction discount applies if the merchant belongs to a reputation faction and your standing with that faction is above Neutral. The discount percentage varies based on your standing: 5%, 10%, 15%, or 20%. This can be substantial over time or with a steep repair bill. 
 
 Every time you interact with a repair merchant, the addon checks if you get your configured minimum discount (default is 20%, the max.). If Yes, the addon will auto-repair for you. If not, you’ll get a message in the chat console about the actual discount and repair price, so you can decide whether to repair manually or not.
 
@@ -50,7 +52,7 @@ After every command, the addon prints the current state of the setting you’ve 
 Some __notes__ on the __guild-related settings:__
 
 - If your char is not in a guild, any previous guild settings are irrelevant for this char (since guild settings are saved per guild). The char will always pay with personal funds.
-- With `guild` activated, the addon will try to pay with guild funds. However, if this fails (e.g. not enough guild repair funds available to you, no permissions, or whatever), the bill, partially or entirely, will be payed with the char’s money.
+- With `guild` activated, the addon will try to pay with guild funds. However, if this fails (e.g. not enough guild repair funds available to you, no permissions, or whatever), the bill, partially or entirely, will be paid with the char’s money.
 - With `guildonly` activated, the addon will exclusively try to pay with guild funds. If this fails for whatever reason, it will not fall back to the char’s funds. This may result in incomplete repairs, so it’s probably better to leave this option disabled (which is the default).
     - The addon recalculates the repair costs immediately after the repair action, so, when the repair failed or was incomplete, you should get a notice. But this doesn’t work 100% reliably (WiP).
 - If `guild` is disabled (false) and you enable `guildonly`, it will naturally imply that `guild` is enabled.
