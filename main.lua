@@ -5,15 +5,19 @@ local _, A = ...
 local db = A.db
 
 
--- API
+-- From _G
 local _
+local format = format
 local C_TimerAfter = C_Timer.After
+local WrapTextInColorCode = WrapTextInColorCode
+local GetMoneyString = GetMoneyString
 local IsInGuild = IsInGuild
+local GetGuildInfo = GetGuildInfo
+local GetNormalizedRealmName = GetNormalizedRealmName
 local C_TooltipInfoGetInventoryItem = C_TooltipInfo.GetInventoryItem
 local C_TooltipInfoGetBagItem = C_TooltipInfo.GetBagItem
 local C_ContainerGetContainerNumSlots = C_Container.GetContainerNumSlots
 local C_ContainerGetContainerItemDurability = C_Container.GetContainerItemDurability
-local GetMoneyString = GetMoneyString
 
 local function color_text(text, color)
 	return color:WrapTextInColorCode(tostring(text))

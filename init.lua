@@ -64,13 +64,14 @@ A.ADDONNAME_LONG = myprettyname
 A.PREFIX_SHORT = A.CLR_ADDON:WrapTextInColorCode(A.ADDONNAME_SHORT) .. ': '
 A.PREFIX_LONG = A.CLR_ADDON:WrapTextInColorCode(A.ADDONNAME_LONG) .. ': '
 
+local INF_NEG = -math.huge
 -- { greater than diff in Gold, Sound ID }
 A.SOUNDS_INCREASED_COSTS = {
 	{10, 2174245},
 	{5, 1272544},
 	{1, 1237429},
 	{0, 568056},
-	{-math.huge, 1451467}, -- costs have decreased
+	{INF_NEG, 1451467}, -- costs have decreased
 }
 
 
