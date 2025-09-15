@@ -268,6 +268,12 @@ end
 ---------------------------------------------------------------------------]]--
 
 
+local function pick_random(array)
+    local i = fastrandom(#array)
+    return array[i]
+end
+
+
 local function find_closest_valid_discount(actual)
 	for k in pairs(A.DISCOUNTS) do
 		if abs(k - actual) < 0.003 then return k end
@@ -280,7 +286,7 @@ function A.autorepair()
 		local actual_costs, canrepair = GetRepairAllCost()
 		if not canrepair then
 			if actual_costs == 0 then
-				addonmsg('Nothing to repair. Do some damage to your gear and come back.')
+				addonmsg(pick_random(A.MSGS_NOREPAIR))
 			else
 				addonmsg(attn_txt('For some reason, you currently cannot repair here.'))
 			end

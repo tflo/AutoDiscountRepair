@@ -82,3 +82,13 @@ A.DISCOUNTS = {
 	[20] = '00FF00',
 }
 
+A.MSGS_NOREPAIR = {
+	'No repairs needed. Come back after some real action.',
+	'No repairs needed. Maybe go lose a life and try again?',
+	'No repairs needed. Get a little roughed up first.',
+	'No repairs needed. Take a hit or two and come back.',
+	'No repairs needed. Take a hit or two and come back.',
+	'No repairs needed. Take some hits and come back.',
+	'No repairs needed. Seems like you\'ve been careful out there.',
+}
+
