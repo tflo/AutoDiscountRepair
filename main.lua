@@ -267,16 +267,9 @@ end
 	At the merchant
 ---------------------------------------------------------------------------]]--
 
-local discounts = {
-	[0] = 'FF0000',
-	[5] = 'FFA500',
-	[10] = 'FFD700',
-	[15] = '00FFFF',
-	[20] = '00FF00',
-}
 
 local function find_closest_valid_discount(actual)
-	for k in pairs(discounts) do
+	for k in pairs(A.DISCOUNTS) do
 		if abs(k - actual) < 0.003 then return k end
 	end
 	return nil
@@ -336,7 +329,7 @@ function A.autorepair()
 								GetMoneyString(roundmoney(actual_costs, 'silver'), true),
 								WrapTextInColorCode(
 									nominal_discount .. '%',
-									'ff' .. discounts[nominal_discount]
+									'ff' .. A.DISCOUNTS[nominal_discount]
 								)
 							)
 						)
@@ -360,7 +353,7 @@ function A.autorepair()
 					GetMoneyString(roundmoney(A.stdrepaircosts, 'silver'), true),
 					WrapTextInColorCode(
 						nominal_discount .. '%',
-						'ff' .. discounts[nominal_discount]
+						'ff' .. A.DISCOUNTS[nominal_discount]
 					),
 					GetMoneyString(roundmoney(actual_costs, 'silver'), true)
 				)
