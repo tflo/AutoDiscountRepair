@@ -5,6 +5,12 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 0.7.1 (2025-09-15)
+
+- The message when there is nothing to repair is now random.
+- Minor tweaks.
+- Readme/description updated.
+
 #### 0.7.0 (2025-09-14)
 
 - The player now gets fat red warnings if the attempts to fetch guild info fail (after login).

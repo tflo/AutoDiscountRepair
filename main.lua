@@ -130,6 +130,7 @@ end
 	Get the costs
 ---------------------------------------------------------------------------]]--
 
+-- Only used in messages
 local function roundmoney(amount, precision)
 	local precision = precision or 'c'
 	precision = precision:sub(1, 1)

@@ -4,9 +4,9 @@ Automatically repair your gear – where it’s cheap.
 
 ## Preliminary
 
-As of 14 Sep 2025 and version 0.7.0, this addon is still in an early stage. It’s likely that we will have to squish a few more bugs ;) You can help by reporting bugs (or suggestions) to the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) of the repo! (Please do not post issues/suggestions to the CurseForge comments.)
+As of 14 Sep 2025 and version 0.7.0, this addon is still in an early stage. It’s likely that we will have to squish a few more bugs ;) You can help by reporting bugs (or suggestions) to the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) of the repo! (Kindly avoid posting issues or suggestions in the CurseForge comments.)
 
-___If you’re having trouble reading this description on CurseForge, you might want to try switching to the [REPO PAGE](https://github.com/tflo/AutoDiscountRepair#auto-discount-repair). You’ll find the exact same text there, but it’s much easier to read and free from CurseForge’s rendering errors.___
+___If you’re having trouble reading this description on CurseForge, you might want to try switching to the [REPO PAGE](https://github.com/tflo/AutoDiscountRepair?tab=readme-ov-file#auto-discount-repair). You’ll find the exact same text there, but it’s much easier to read and free from CurseForge’s rendering errors.___
 
 ## What the addon does
 
@@ -14,7 +14,7 @@ There are many addons with auto-repair functionality, but we try to handle it sm
 
 In Modern WoW, you can get a discount when repairing gear at a repair merchant. This faction discount applies if the merchant belongs to a reputation faction and your standing with that faction is above Neutral. The discount percentage varies based on your standing: 5%, 10%, 15%, or 20%. This can be substantial over time or with a steep repair bill. 
 
-Every time you interact with a repair merchant, the addon checks if you get your configured minimum discount (default is 20%, the max.). If Yes, the addon will auto-repair for you. If not, you’ll get a message in the chat console about the actual discount and repair price, so you can decide whether to repair manually or not.
+Whenever you interact with a repair merchant, the addon checks if you are getting at least your set minimum discount (default is 20%, which is the max). If you do, it will automatically repair your gear for you. If not, you'll see a message in the chat showing the actual discount and repair cost, so you can decide if you want to repair manually or not.
 
 That’s it. No bells and no whistles.
 
@@ -49,7 +49,7 @@ All settings are account-wide, except for the guild-related settings. These are 
 
 After every command, the addon prints the current state of the setting you’ve just changed.
 
-Some __notes__ on the __guild-related settings:__
+Some notes on the __guild-related settings:__
 
 - If your char is not in a guild, any previous guild settings are irrelevant for this char (since guild settings are saved per guild). The char will always pay with personal funds.
 - With `guild` activated, the addon will try to pay with guild funds. However, if this fails (e.g. not enough guild repair funds available to you, no permissions, or whatever), the bill, partially or entirely, will be paid with the char’s money.
@@ -57,7 +57,7 @@ Some __notes__ on the __guild-related settings:__
     - The addon recalculates the repair costs immediately after the repair action, so, when the repair failed or was incomplete, you should get a notice. But this doesn’t work 100% reliably (WiP).
 - If `guild` is disabled (false) and you enable `guildonly`, it will naturally imply that `guild` is enabled.
 
-A __note__ on the __“Minimum cost increase to print a new message”:__
+A note on the __“Minimum cost increase to print a new message”:__
 
 - For this, simply enter the desired increase threshold in Gold, e.g. `/adr 10`.
 - “Increase” means the difference to the last repair costs that have been printed.
@@ -69,8 +69,8 @@ __Have fun with the addon!__
 
 ---
 
-Feel free to post suggestions or issues in the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) of the repo!
-__Please do not post issues or suggestions in the comments on Curseforge.__
+Feel free to share your suggestions or report issues on the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) page of the repository.  
+__Please avoid posting suggestions or issues in the comments on Curseforge.__
 
 ---
 
