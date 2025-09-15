@@ -296,6 +296,7 @@ function A.autorepair()
 		if actual_costs == 0 then return end
 		local actual_discount = 100 - actual_costs / A.stdrepaircosts * 100
 		local nominal_discount = find_closest_valid_discount(actual_discount)
+		debugprint(format('Act: %s | Tol: %s | Nom: %s', actual_discount, A.DISCOUNT_TOLERANCE, nominal_discount))
 		-- For debugging, but maybe leave it in as safety.
 		if not nominal_discount then
 			addonmessage(
