@@ -82,6 +82,8 @@ A.DISCOUNTS = {
 	[20] = '00FF00',
 }
 
+A.DISCOUNT_TOLERANCE = 0.01
+
 A.MSGS_NOREPAIR = {
 	'No repairs needed. Come back after some real action.',
 	'No repairs needed. Maybe go lose a life and try again?',

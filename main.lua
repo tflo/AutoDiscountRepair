@@ -277,7 +277,7 @@ end
 
 local function find_closest_valid_discount(actual)
 	for k in pairs(A.DISCOUNTS) do
-		if abs(k - actual) < 0.003 then return k end
+		if abs(k - actual) < A.DISCOUNT_TOLERANCE then return k end
 	end
 	return nil
 end

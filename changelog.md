@@ -5,6 +5,11 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 0.7.2 (2025-09-15)
+
+- More tolerance for discount validation.
+- Debug tweaks.
+
 #### 0.7.1 (2025-09-15)
 
 - The message when there is nothing to repair is now random.
