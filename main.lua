@@ -393,7 +393,8 @@ local function slash_cmd(msg)
 		db.discount_threshold = min(value, 20)
 		addonmsg(format(L.CFG_DISCOUNT_THRESH, key_txt(db.discount_threshold .. '%')))
 	elseif tonumber(args[1]) then
-		db.increased_costs_threshold = tonumber(args[1]) * 1e4
+		local thresh = max(min(tonumber(args[1]), 1000), 0)
+		db.increased_costs_threshold = thresh * 1e4
 		addonmsg(
 			format(
 				L.CFG_COSTS_THRESH,
