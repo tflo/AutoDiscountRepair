@@ -121,7 +121,14 @@ A.DISCOUNT_TOLERANCE = 0.01
 A.GUILD_RETRY_DELAY = 20
 A.GUILD_RETRY_MAX = 3
 
-A.MSGS_NOREPAIR = {
+
+--[[===========================================================================
+	Messages
+===========================================================================]]--
+
+local L = {}
+
+L.MSGS_NOREPAIR = {
 	'No repairs needed. Come back after some real action.',
 	'No repairs needed. Maybe go lose a life and try again?',
 	'No repairs needed. Get a little roughed up first.',
@@ -135,8 +142,6 @@ A.MSGS_NOREPAIR = {
 	'No repairs needed. Was that quest just a brisk walk?',
 	'No repairs needed. Maybe time for some reckless delves?',
 }
-
-local L = {}
 
 -- Guild
 L.NO_GUILD_INFO = '\nWARNING: Guild info unavailable (try %s/' .. A.GUILD_RETRY_MAX .. '); possible server lag.\n— Retrying in ' .. A.GUILD_RETRY_DELAY .. ' seconds.\n— Auto-repairs you’ll do now will be paid with your personal funds!'

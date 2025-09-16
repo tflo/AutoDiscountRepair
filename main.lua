@@ -264,7 +264,7 @@ function A.autorepair()
 		local actual_costs, canrepair = GetRepairAllCost()
 		if not canrepair then
 			if actual_costs == 0 then
-				addonmsg(pick_random(A.MSGS_NOREPAIR))
+				addonmsg(pick_random(L.MSGS_NOREPAIR))
 			else
 				addonmsg(L.REPAIR_IMPOSSIBLE)
 			end
