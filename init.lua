@@ -118,6 +118,8 @@ A.DISCOUNTS = {
 }
 
 A.DISCOUNT_TOLERANCE = 0.01
+A.GUILD_RETRY_DELAY = 20
+A.GUILD_RETRY_MAX = 3
 
 A.MSGS_NOREPAIR = {
 	'No repairs needed. Come back after some real action.',

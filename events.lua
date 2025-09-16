@@ -7,18 +7,19 @@ local _
 local debugprint = A.debugprint
 
 local C_TimerAfter = C_Timer.After
+local INTERACTIONTYPE_MERCHANT = Enum.PlayerInteractionType.Merchant -- 5
 
 
 
 local function PLAYER_INTERACTION_MANAGER_FRAME_SHOW(...)
-	if ... == Enum.PlayerInteractionType.Merchant then -- Merchant 5
+	if ... == INTERACTIONTYPE_MERCHANT then
 		A.merchant_is_open = true
 		if not IsShiftKeyDown() then A.autorepair() end
 	end
 end
 
 local function PLAYER_INTERACTION_MANAGER_FRAME_HIDE(...)
-	if ... == Enum.PlayerInteractionType.Merchant then -- Merchant 5
+	if ... == INTERACTIONTYPE_MERCHANT then
 		A.merchant_is_open = nil
 	end
 end
