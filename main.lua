@@ -6,8 +6,7 @@ local db = A.db
 local L = A.L
 
 
--- From _G
-local _
+-- Blizz
 local format = format
 local C_TimerAfter = C_Timer.After
 local WrapTextInColorCode = WrapTextInColorCode
@@ -64,13 +63,7 @@ function A.get_guild() -- @ login
 		guild_realm = guild_realm or GetNormalizedRealmName()
 		if not (guild_name and guild_realm) then
 			if tries < A.GUILD_RETRY_MAX then
-				addonmessage(
-					format(
-						L.NO_GUILD_INFO,
-						tries
-					),
-					A.CLR_BAD
-				)
+				addonmessage(format(L.NO_GUILD_INFO, tries), A.CLR_BAD)
 				debugprint(
 					format(
 						'Guild info fetch failed (try %s): %s, %s',
@@ -81,10 +74,7 @@ function A.get_guild() -- @ login
 				)
 				C_TimerAfter(A.GUILD_RETRY_DELAY, try_get_guild)
 			else
-				addonmessage(
-					L.NO_GUILD_INFO_FINAL,
-					A.CLR_BAD
-				)
+				addonmessage(L.NO_GUILD_INFO_FINAL, A.CLR_BAD)
 				debugprint(format('Max retries (%s) reached, no guild set.', A.GUILD_RETRY_MAX))
 			end
 			return
@@ -273,17 +263,17 @@ function A.autorepair()
 		if actual_costs == 0 then return end
 		local actual_discount = 100 - actual_costs / A.stdrepaircosts * 100
 		local nominal_discount = find_closest_valid_discount(actual_discount)
-		debugprint(format('Act: %s | Tol: %s | Nom: %s', actual_discount, A.DISCOUNT_TOLERANCE, nominal_discount))
+		debugprint(
+			format(
+				'Act: %s | Tol: %s | Nom: %s',
+				actual_discount,
+				A.DISCOUNT_TOLERANCE,
+				nominal_discount
+			)
+		)
 		-- For debugging, but maybe leave it in as safety.
 		if not nominal_discount then
-			addonmessage(
-				attn_txt(
-					format(
-						L.CALCULATION_MISMATCH,
-						actual_discount
-					)
-				)
-			)
+			addonmessage(attn_txt(format(L.CALCULATION_MISMATCH, actual_discount)))
 			return
 		end
 		if nominal_discount >= db.discount_threshold then

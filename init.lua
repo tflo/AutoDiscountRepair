@@ -4,8 +4,9 @@
 local myname, A = ...
 local myprettyname = C_AddOns.GetAddOnMetadata(myname, "Title")
 local DB_ID = 'DB_8552E721_B117_473D_A2D1_3D0939A5338A'
-local _
 
+-- Blizz
+local format = format
 
 --[[===========================================================================
 	SV and defaults

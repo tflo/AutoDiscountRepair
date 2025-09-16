@@ -3,13 +3,16 @@
 
 local myname, A = ...
 
-local _
 local debugprint = A.debugprint
 
+-- Blizz
 local C_TimerAfter = C_Timer.After
 local INTERACTIONTYPE_MERCHANT = Enum.PlayerInteractionType.Merchant -- 5
 
 
+--[[===========================================================================
+	Event functions
+===========================================================================]]--
 
 local function PLAYER_INTERACTION_MANAGER_FRAME_SHOW(...)
 	if ... == INTERACTIONTYPE_MERCHANT then
@@ -24,8 +27,6 @@ local function PLAYER_INTERACTION_MANAGER_FRAME_HIDE(...)
 	end
 end
 
--- local function PLAYER_LOGIN() C_TimerAfter(5, A.get_guild) end
-
 -- Guild info is often not available shortly after login, so better use PEW with adaptive delays.
 local function PLAYER_ENTERING_WORLD(is_login, is_reload)
 	if not is_login and not is_reload then return end
@@ -38,7 +39,7 @@ local function UPDATE_INVENTORY_DURABILITY()
 	-- If at a merchant, this returns the discounted costs, not the std costs; so no point
 	-- Throttling is needed bc the event can fire multiple times in a row
 	if get_stdrepaircosts_onhold or A.merchant_is_open then
-		debugprint('UID ignored')
+		debugprint('UID ignored') -- Remove when no longer needed
 		return
 	end
 	get_stdrepaircosts_onhold = true
@@ -49,14 +50,13 @@ local function UPDATE_INVENTORY_DURABILITY()
 end
 
 
---------------------------------------------------------------------------------
--- Event frame, handlers, and registration
---------------------------------------------------------------------------------
+--[[===========================================================================
+	Event frame, handlers, and registration
+===========================================================================]]--
 
 local ef = CreateFrame('Frame', myname .. '_eventframe')
 
 local event_handlers = {
-	-- ['PLAYER_LOGIN'] = PLAYER_LOGIN,
 	['PLAYER_ENTERING_WORLD'] = PLAYER_ENTERING_WORLD,
 	['PLAYER_INTERACTION_MANAGER_FRAME_SHOW'] = PLAYER_INTERACTION_MANAGER_FRAME_SHOW,
 	['PLAYER_INTERACTION_MANAGER_FRAME_HIDE'] = PLAYER_INTERACTION_MANAGER_FRAME_HIDE,
