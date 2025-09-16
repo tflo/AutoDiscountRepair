@@ -20,34 +20,13 @@ local C_TooltipInfoGetBagItem = C_TooltipInfo.GetBagItem
 local C_ContainerGetContainerNumSlots = C_Container.GetContainerNumSlots
 local C_ContainerGetContainerItemDurability = C_Container.GetContainerItemDurability
 
-local function color_text(text, color)
-	return color:WrapTextInColorCode(tostring(text))
-end
+local key_txt = A.key_txt
+local attn_txt = A.attn_txt
+local good_txt = A.good_txt
 
-local function key_txt(text) return color_text(text, A.CLR_KEY) end
-local function addon_txt(text) return color_text(text, A.CLR_ADDON) end
-local function neutral_txt(text) return color_text(text, A.CLR_NEUTRAL) end
-local function attn_txt(text) return color_text(text, A.CLR_ATTN) end
-local function bad_txt(text) return color_text(text, A.CLR_BAD) end
-local function good_txt(text) return color_text(text, A.CLR_GOOD) end
-
-local function addonmsg(text, color)
-	local color = color or A.CLR_NEUTRAL
-	print(A.PREFIX_SHORT .. color:WrapTextInColorCode(text))
-end
-A.addonmsg = addonmsg
-
-local function addonmessage(text, color)
-	local color = color or A.CLR_NEUTRAL
-	print(A.PREFIX_LONG .. color:WrapTextInColorCode(text))
-end
-A.addonmessage = addonmessage
-
-local function debugprint(text)
-	if not db.debugmode then return end
-	print(A.PREFIX_SHORT .. A.CLR_DEBUG:WrapTextInColorCode(text))
-end
-A.debugprint = debugprint
+local addonmsg = A.addonmsg
+local addonmessage = A.addonmessage
+local debugprint = A.debugprint
 
 
 --[[===========================================================================

@@ -48,6 +48,41 @@ A.defaults = defaults
 
 
 --[[===========================================================================
+	Helpers
+===========================================================================]]--
+
+local function color_text(text, color)
+	return color:WrapTextInColorCode(tostring(text))
+end
+
+local function key_txt(text) return color_text(text, A.CLR_KEY) end
+local function addon_txt(text) return color_text(text, A.CLR_ADDON) end
+local function neutral_txt(text) return color_text(text, A.CLR_NEUTRAL) end
+local function attn_txt(text) return color_text(text, A.CLR_ATTN) end
+local function bad_txt(text) return color_text(text, A.CLR_BAD) end
+local function good_txt(text) return color_text(text, A.CLR_GOOD) end
+
+A.key_txt = key_txt
+A.attn_txt = attn_txt
+A.good_txt = good_txt
+
+function A.addonmsg(text, color)
+	local color = color or A.CLR_NEUTRAL
+	print(A.PREFIX_SHORT .. color:WrapTextInColorCode(text))
+end
+
+function A.addonmessage(text, color)
+	local color = color or A.CLR_NEUTRAL
+	print(A.PREFIX_LONG .. color:WrapTextInColorCode(text))
+end
+
+function A.debugprint(text)
+	if not db.debugmode then return end
+	print(A.PREFIX_SHORT .. A.CLR_DEBUG:WrapTextInColorCode(text))
+end
+
+
+--[[===========================================================================
 	Constants
 ===========================================================================]]--
 
