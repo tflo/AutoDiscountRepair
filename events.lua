@@ -37,7 +37,10 @@ local get_stdrepaircosts_onhold
 local function UPDATE_INVENTORY_DURABILITY()
 	-- If at a merchant, this returns the discounted costs, not the std costs; so no point
 	-- Throttling is needed bc the event can fire multiple times in a row
-	if get_stdrepaircosts_onhold or A.merchant_is_open then return end
+	if get_stdrepaircosts_onhold or A.merchant_is_open then
+		debugprint('UID ignored')
+		return
+	end
 	get_stdrepaircosts_onhold = true
 	C_TimerAfter(1, function()
 		get_stdrepaircosts_onhold = nil
