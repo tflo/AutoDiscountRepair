@@ -99,3 +99,45 @@ A.MSGS_NOREPAIR = {
 	'No repairs needed. Maybe time for some reckless delves?',
 }
 
+local L = {}
+
+-- Guild
+L.NO_GUILD_INFO = 'Warning: Guild info unavailable (try %s). Possible server lag.%s Auto-repairs you’ll do now will be paid with your personal funds!'
+L.NO_GUILD_INFO_FINAL = 'Final Warning: Guild data not retrieved. Probably server lag. Please wait, then reload or relog. All auto-repairs will be paid with your personal funds until reload or relog!'
+-- Costs
+L.COSTS_INVENTORY_TOTAL = 'Inventory (= total) repair costs: %s (%s%s)'
+L.COSTS_BAGS_TOTAL = 'Bags (= total) repair costs: %s (%s%s)'
+L.COSTS_INVENTORY = 'Inventory repair costs: %s (%s%s)'
+L.COSTS_BAGS = 'Bags repair costs: %s (%s%s)'
+L.COSTS_TOTAL = 'Total repair costs: %s (%s%s)'
+-- Merchant
+L.REPAIR_IMPOSSIBLE = attn_txt('For some reason, you currently cannot repair here.')
+L.CALCULATION_MISMATCH = 'We have a calculation mismatch: the computed discount of %s%% does not match any nominal discount (0%%, 5%%, 10%%, 15%%, 20%%)! Probably our last record of the standard repair costs is not accurate or outdated. Aborting auto-repair! (You may try to restart interaction with the merchant.)'
+L.REPAIR_SUCCESS = 'Repaired for %s (%s discount)'
+L.REPAIR_FAILURE_GUILD = 'Your gear was not (or not entirely) repaired. This is probably because of your ' .. attn_txt('guildonly') .. ' setting.'
+L.REPAIR_FAILURE = 'Your gear was not (or not entirely) repaired. Did you run out of money?'
+-- Config
+L.CFG_NOGUILD = format('%s --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.', bad_txt('No guild registered for this char'))
+L.CFG_GUILD_PREF = 'Prefer guild funds for auto-repairs: %s'
+L.CFG_GUILD_ONLY = 'Use exclusively guild funds for auto-repairs: %s'
+L.CFG_COSTS_PRINT = 'Print the current repair costs when they increase: %s'
+L.CFG_SUMMARY = 'Print summary at merchant: %s'
+L.CFG_COSTS_SOUND = 'Play a sound when increased repair costs are printed: %s'
+L.CFG_DISCOUNT_THRESH = 'Discount threshold: %s'
+L.CFG_COSTS_THRESH = 'Minimum cost increase to print a new message: %s Gold'
+L.CFG_INVALID = format('%s Type %s for a list of arguments.', bad_txt('Invalid argument(s).'), key_txt('/adr help'))
+L.CFG_DEBUG = 'Debug mode: %s'
+-- Help
+L.HELP_HEADING = format('%s Help:', addon_txt(A.ADDONNAME_LONG))
+L.HELP_INTRO = format('%s accepts these arguments [type; current value (default)]:', key_txt('/adr'))
+L.HELP_GUILD_PREF = key_txt('guild') .. ' : Prefer guild funds for auto-repairs [toggle; %s (%s)].'
+L.HELP_GUILD_ONLY = key_txt('guildonly') .. ' : Use exclusively guild funds for auto-repairs [toggle; %s (%s)]. If enabled, this implies "Prefer guild funds".'
+L.HELP_DISCOUNT_THRESH = key_txt('0%%||5%%||10%%||15%%||20%%||max') .. ' : Discount threshold [percent; %s (%s%%)].'
+L.HELP_SUMMARY = key_txt('summary') .. ' : Print summary at repair merchant [toggle; %s (%s)].'
+L.HELP_COSTS_PRINT = key_txt('costs') .. ' : Print the current repair costs when they increase [toggle; %s (%s)].'
+L.HELP_COSTS_THRESH = key_txt('<number>') .. ' : Minimum cost increase to print a new message [difference in Gold; %s (%s)]. This requires the ' .. key_txt('costs') .. ' option to be enabled.'
+L.HELP_COSTS_SOUND = key_txt('sound') .. ' : Play a sound when increased repair costs are printed [toggle; %s (%s)]. This requires the ' .. key_txt('costs') .. ' option to be enabled.'
+L.HELP_HELP = format('%s or %s : Print this help text.', key_txt('help'), key_txt('h'))
+
+
+A.L = L

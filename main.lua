@@ -3,6 +3,7 @@
 
 local _, A = ...
 local db = A.db
+local L = A.L
 
 
 -- From _G
@@ -87,7 +88,7 @@ function A.get_guild() -- @ login
 		if not (guild_name and guild_realm) then
 			addonmessage(
 				format(
-					'Warning: Guild info unavailable (try %s). Possible server lag.%s Auto-repairs you’ll do now will be paid with your personal funds!',
+					L.NO_GUILD_INFO,
 					tries,
 					tries < max_retries and ' Retrying in ' .. delay_retry .. ' seconds.' or ''
 				),
@@ -105,7 +106,7 @@ function A.get_guild() -- @ login
 				C_TimerAfter(delay_retry, try_get_guild)
 			else
 				addonmessage(
-					'Final Warning: Guild data not retrieved. Probably server lag. Please wait, then reload or relog. All auto-repairs will be paid with your personal funds until reload or relog!',
+					L.NO_GUILD_INFO_FINAL,
 					A.CLR_BAD
 				)
 				debugprint(format('Max retries (%s) reached, no guild set.', max_retries))
@@ -217,7 +218,7 @@ function A.get_stdrepaircosts(byusercmd)
 			if stdrepaircosts_bags == 0 and diff_bags == 0 then
 				addonmsg(
 					format(
-						'Inventory (= total) repair costs: %s (%s%s)',
+						L.COSTS_INVENTORY_TOTAL,
 						GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true),
 						diff_inv >= 0 and '+' or '-',
 						GetMoneyString(roundmoney(absdiff_inv, round_diff), true)
@@ -226,7 +227,7 @@ function A.get_stdrepaircosts(byusercmd)
 			elseif stdrepaircosts_inv == 0 and diff_inv == 0 then
 				addonmsg(
 					format(
-						'Bags (= total) repair costs: %s (%s%s)',
+						L.COSTS_BAGS_TOTAL,
 						GetMoneyString(roundmoney(stdrepaircosts_bags, round_total), true),
 						diff_bags >= 0 and '+' or '-',
 						GetMoneyString(roundmoney(absdiff_bags, round_diff), true)
@@ -235,7 +236,7 @@ function A.get_stdrepaircosts(byusercmd)
 			else
 				addonmsg(
 					format(
-						'Inventory repair costs: %s (%s%s)',
+						L.COSTS_INVENTORY,
 						GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true),
 						diff_inv >= 0 and '+' or '-',
 						GetMoneyString(roundmoney(absdiff_inv, round_diff), true)
@@ -243,7 +244,7 @@ function A.get_stdrepaircosts(byusercmd)
 				)
 				addonmsg(
 					format(
-						'Bags repair costs: %s (%s%s)',
+						L.COSTS_BAGS,
 						GetMoneyString(roundmoney(stdrepaircosts_bags, round_total), true),
 						diff_bags >= 0 and '+' or '-',
 						GetMoneyString(roundmoney(absdiff_bags, round_diff), true)
@@ -251,7 +252,7 @@ function A.get_stdrepaircosts(byusercmd)
 				)
 				addonmsg(
 					format(
-						'Total repair costs: %s (%s%s)',
+						L.COSTS_TOTAL,
 						GetMoneyString(roundmoney(stdrepaircosts, round_total), true),
 						diff_total >= 0 and '+' or '-',
 						GetMoneyString(roundmoney(absdiff_total, round_diff), true)
@@ -289,7 +290,7 @@ function A.autorepair()
 			if actual_costs == 0 then
 				addonmsg(pick_random(A.MSGS_NOREPAIR))
 			else
-				addonmsg(attn_txt('For some reason, you currently cannot repair here.'))
+				addonmsg(L.REPAIR_IMPOSSIBLE)
 			end
 			return
 		end
@@ -302,7 +303,7 @@ function A.autorepair()
 			addonmessage(
 				attn_txt(
 					format(
-						'We have a calculation mismatch: the computed discount of %s%% does not match any nominal discount (0%%, 5%%, 10%%, 15%%, 20%%)! Probably our last record of the standard repair costs is not accurate or outdated. Aborting auto-repair! (You may try to restart interaction with the merchant.)',
+						L.CALCULATION_MISMATCH,
 						actual_discount
 					)
 				)
@@ -333,7 +334,7 @@ function A.autorepair()
 					if costs == 0 then
 						addonmsg(
 							format(
-								'Repaired for %s (%s discount)',
+								L.REPAIR_SUCCESS,
 								GetMoneyString(roundmoney(actual_costs, 'silver'), true),
 								WrapTextInColorCode(
 									nominal_discount .. '%',
@@ -342,15 +343,9 @@ function A.autorepair()
 							)
 						)
 					elseif db.guilds[guild].guildmoney_only then
-						addonmsg(
-							'Your gear was not (or not entirely) repaired. This is probably because of your '
-								.. attn_txt('guildonly')
-								.. ' setting.'
-						)
+						addonmsg(L.REPAIR_FAILURE_GUILD)
 					else
-						addonmsg(
-							'Your gear was not (or not entirely) repaired. Did you run out of money?'
-						)
+						addonmsg(L.REPAIR_FAILURE)
 					end
 				end)
 			end
@@ -381,17 +376,12 @@ local function slash_cmd(msg)
 	if not args[1] or args[1] == '' then
 		A.get_stdrepaircosts(true)
 	elseif (args[1] == 'guild' or args[1] == 'guildonly') and not guild then
-		addonmsg(
-			format(
-				'%s --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.',
-				bad_txt('No guild registered for this char')
-			)
-		)
+		addonmsg(L.CFG_NOGUILD)
 	elseif args[1] == 'guild' then
 		db.guilds[guild].guildmoney_preferred = not db.guilds[guild].guildmoney_preferred
 		addonmsg(
 			format(
-				'Prefer guild funds for auto-repairs: %s',
+				L.CFG_GUILD_PREF,
 				key_txt(db.guilds[guild].guildmoney_preferred)
 			)
 		)
@@ -399,18 +389,18 @@ local function slash_cmd(msg)
 		db.guilds[guild].guildmoney_only = not db.guilds[guild].guildmoney_only
 		addonmsg(
 			format(
-				'Use exclusively guild funds for auto-repairs: %s',
+				L.CFG_GUILD_ONLY ,
 				key_txt(db.guilds[guild].guildmoney_only)
 			)
 		)
 	elseif args[1] == 'summary' then
 		db.show_repairsummary = not db.show_repairsummary
-		addonmsg(format('Print summary at merchant: %s', key_txt(db.show_repairsummary)))
+		addonmsg(format(L.CFG_SUMMARY, key_txt(db.show_repairsummary)))
 	elseif args[1] == 'costs' or args[1] == 'cost' then
 		db.show_increased_costs = not db.show_increased_costs
 		addonmsg(
 			format(
-				'Print the current repair costs when they increase: %s',
+				L.CFG_COSTS_PRINT,
 				key_txt(db.show_increased_costs)
 			)
 		)
@@ -418,88 +408,72 @@ local function slash_cmd(msg)
 		db.increased_costs_sound = not db.increased_costs_sound
 		addonmsg(
 			format(
-				'Play a sound when increased repair costs are printed: %s',
+				L.CFG_COSTS_SOUND,
 				key_txt(db.increased_costs_sound)
 			)
 		)
 	elseif args[1] == 'max' or args[1]:match('^%d?%d%%$') then
 		local value = args[1] == 'max' and 20 or tonumber(args[1]:sub(1, -2))
 		db.discount_threshold = min(value, 20)
-		addonmsg(format('Discount threshold: %s', key_txt(db.discount_threshold .. '%')))
+		addonmsg(format(L.CFG_DISCOUNT_THRESH, key_txt(db.discount_threshold .. '%')))
 	elseif tonumber(args[1]) then
 		db.increased_costs_threshold = tonumber(args[1]) * 1e4
 		addonmsg(
 			format(
-				'Minimum cost increase to print a new message: %s Gold',
+				L.CFG_COSTS_THRESH,
 				key_txt(db.increased_costs_threshold / 1e4)
 			)
 		)
 	elseif args[1] == 'help' or args[1] == 'h' then
 		local lines = {
-			format('%s help:', addon_txt(A.ADDONNAME_LONG)),
+			L.HELP_HEADING,
+			L.HELP_INTRO,
 			format(
-				'%s accepts these arguments [type; current value (default)]:',
-				key_txt('/adr')
-			),
-			format(
-				'%s : Prefer guild funds for auto-repairs [toggle; %s (%s)].',
-				key_txt('guild'),
+				L.HELP_GUILD_PREF,
 				good_txt(db.guilds[guild].guildmoney_preferred),
 				tostring(A.defaults.default_guildmoney_preferred)
 			),
 			format(
-				'%s : Use exclusively guild funds for auto-repairs [toggle; %s (%s)]. If enabled, this implies "Prefer guild funds".',
-				key_txt('guildonly'),
+				L.HELP_GUILD_ONLY,
 				good_txt(db.guilds[guild].guildmoney_only),
 				tostring(A.defaults.default_guildmoney_only)
 			),
 			format(
-				'%s : Discount threshold [percent; %s (%s%%)].',
-				key_txt('0%||5%||10%||15%||20%||max'),
+				L.HELP_DISCOUNT_THRESH,
 				good_txt(db.discount_threshold .. '%'),
 				A.defaults.discount_threshold
 			),
 			format(
-				'%s : Print summary at repair merchant [toggle; %s (%s)].',
-				key_txt('summary'),
+				L.HELP_SUMMARY,
 				good_txt(db.show_repairsummary),
 				tostring(A.defaults.show_repairsummary)
 			),
 			format(
-				'%s : Print the current repair costs when they increase [toggle; %s (%s)].',
-				key_txt('costs'),
+				L.HELP_COSTS_PRINT,
 				good_txt(db.show_increased_costs),
 				tostring(A.defaults.show_increased_costs)
 			),
 			format(
-				'%s : Minimum cost increase to print a new message [difference in Gold; %s (%s)]. This requires the %s option to be enabled.',
-				key_txt('<number>'),
+				L.HELP_COSTS_THRESH,
 				good_txt(db.increased_costs_threshold / 1e4),
-				A.defaults.increased_costs_threshold / 1e4,
-				key_txt('costs')
+				A.defaults.increased_costs_threshold / 1e4
 			),
 			format(
-				'%s : Play a sound when increased repair costs are printed [toggle; %s (%s)]. This requires the %s option to be enabled.',
-				key_txt('sound'),
+				L.HELP_COSTS_SOUND,
 				good_txt(db.increased_costs_sound),
-				tostring(A.defaults.increased_costs_sound),
-				key_txt('costs')
+				tostring(A.defaults.increased_costs_sound)
 			),
-			format('%s or %s : Print this help text.', key_txt('help'), key_txt('h')),
+			L.HELP_HELP,
 		}
 		for _, line in ipairs(lines) do
 			print(line)
 		end
 	elseif args[1] == 'dm' then
 		db.debugmode = not db.debugmode
-		addonmsg(format('Debug mode: %s', key_txt(db.debugmode)))
+		addonmsg(format(L.CFG_DEBUG, key_txt(db.debugmode)))
 	else
 		addonmsg(
-			format(
-				'%s Type %s for a list of arguments.',
-				bad_txt('Invalid argument(s).'),
-				key_txt('/adr help')
-			)
+			L.CFG_INVALID
 		)
 	end
 end
