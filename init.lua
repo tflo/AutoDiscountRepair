@@ -139,8 +139,8 @@ A.MSGS_NOREPAIR = {
 local L = {}
 
 -- Guild
-L.NO_GUILD_INFO = 'Warning: Guild info unavailable (try %s). Possible server lag.%s Auto-repairs you’ll do now will be paid with your personal funds!'
-L.NO_GUILD_INFO_FINAL = 'Final Warning: Guild data not retrieved. Probably server lag. Please wait, then reload or relog. All auto-repairs will be paid with your personal funds until reload or relog!'
+L.NO_GUILD_INFO = '\nWARNING: Guild info unavailable (try %s/' .. A.GUILD_RETRY_MAX .. '); possible server lag.\n— Retrying in ' .. A.GUILD_RETRY_DELAY .. ' seconds.\n— Auto-repairs you’ll do now will be paid with your personal funds!'
+L.NO_GUILD_INFO_FINAL = '\nFINAL WARNING: Guild data not retrieved; probably server lag.\n— Please wait, then reload or relog.\n— All auto-repairs will be paid with your personal funds until reload or relog!'
 -- Costs
 L.COSTS_INVENTORY_TOTAL = 'Inventory (= total) repair costs: %s (%s%s)'
 L.COSTS_BAGS_TOTAL = 'Bags (= total) repair costs: %s (%s%s)'

@@ -63,24 +63,23 @@ function A.get_guild() -- @ login
 		local guild_name, _, _, guild_realm = GetGuildInfo('player')
 		guild_realm = guild_realm or GetNormalizedRealmName()
 		if not (guild_name and guild_realm) then
-			addonmessage(
-				format(
-					L.NO_GUILD_INFO,
-					tries,
-					tries < max_retries and ' Retrying in ' .. delay_retry .. ' seconds.' or ''
-				),
-				A.CLR_BAD
-			)
-			debugprint(
-				format(
-					'Guild info fetch failed (try %s): %s, %s',
-					tries,
-					guild_name or 'NO NAME',
-					guild_realm or 'NO REALM'
+			if tries < A.GUILD_RETRY_MAX then
+				addonmessage(
+					format(
+						L.NO_GUILD_INFO,
+						tries
+					),
+					A.CLR_BAD
 				)
-			)
-			if tries < max_retries then
-				C_TimerAfter(delay_retry, try_get_guild)
+				debugprint(
+					format(
+						'Guild info fetch failed (try %s): %s, %s',
+						tries,
+						guild_name or 'NO NAME',
+						guild_realm or 'NO REALM'
+					)
+				)
+				C_TimerAfter(A.GUILD_RETRY_DELAY, try_get_guild)
 			else
 				addonmessage(
 					L.NO_GUILD_INFO_FINAL,
