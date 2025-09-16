@@ -42,7 +42,7 @@ local function UPDATE_INVENTORY_DURABILITY()
 		return
 	end
 	get_stdrepaircosts_onhold = true
-	C_TimerAfter(1, function()
+	C_TimerAfter(A.REPAIR_COST_UPDATE_DELAY, function()
 		get_stdrepaircosts_onhold = nil
 		A.get_stdrepaircosts()
 	end)

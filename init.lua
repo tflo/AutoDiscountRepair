@@ -120,7 +120,7 @@ A.DISCOUNTS = {
 A.DISCOUNT_TOLERANCE = 0.01
 A.GUILD_RETRY_DELAY = 20
 A.GUILD_RETRY_MAX = 3
-
+A.REPAIR_COST_UPDATE_DELAY = 1
 
 --[[===========================================================================
 	Messages
