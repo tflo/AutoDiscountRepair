@@ -186,6 +186,7 @@ L.HELP_COSTS_THRESH = key_txt('<number>') .. ' : Minimum cost increase to print 
 L.HELP_COSTS_SOUND = key_txt('sound') .. ' : Play a sound when increased repair costs are printed [toggle; %s (%s)]. This requires the ' .. key_txt('costs') .. ' option to be enabled.'
 L.HELP_HELP = format('%s or %s : Print this help text.', key_txt('help'), key_txt('h'))
 L.HELP_REPAIR = key_txt('repair') .. ' : Auto-repair [toggle; %s (%s)]. Auto-enabled at login.'
+L.HELP_DEBUG = key_txt('dm') .. ' : Debug mode [toggle; %s (%s)]. Enable only when needed.'
 
 
 A.L = L

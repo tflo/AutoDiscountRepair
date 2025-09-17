@@ -442,6 +442,11 @@ local function slash_cmd(msg)
 				good_txt(db.auto_repair),
 				tostring(A.defaults.auto_repair)
 			),
+			format(
+				L.HELP_DEBUG,
+				good_txt(db.debugmode),
+				tostring(A.defaults.debugmode)
+			),
 			L.HELP_HELP,
 		}
 		for _, line in ipairs(lines) do
