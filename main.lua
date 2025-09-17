@@ -118,8 +118,8 @@ local function get_repaircosts_inv()
 		local slot = repairable_slots[i]
 		local durability, max_durability = GetInventoryItemDurability(slot)
 		if durability and durability ~= max_durability then
-			local data, costs = C_TooltipInfoGetInventoryItem('player', slot), nil
-			if data then costs = data.repairCost end
+			local data = C_TooltipInfoGetInventoryItem('player', slot)
+			local costs = data and data.repairCost
 			if costs then total = total + costs end
 		end
 	end
@@ -259,7 +259,10 @@ function A.autorepair()
 		end
 		return
 	end
-	if actual_costs == 0 then return end
+	if actual_costs == 0 then
+		debugprint('This should never happen!')
+		return
+	end
 	local actual_discount = 100 - actual_costs / A.stdrepaircosts * 100
 	local nominal_discount = find_closest_valid_discount(actual_discount)
 	debugprint(
