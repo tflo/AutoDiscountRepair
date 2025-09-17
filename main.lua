@@ -250,7 +250,6 @@ local function find_closest_valid_discount(actual)
 end
 
 function A.autorepair()
-	if CanMerchantRepair() then
 		local actual_costs, canrepair = GetRepairAllCost()
 		if not canrepair then
 			if actual_costs == 0 then
@@ -328,7 +327,6 @@ function A.autorepair()
 				)
 			)
 		end
-	end
 end
 
 

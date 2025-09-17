@@ -17,7 +17,7 @@ local INTERACTIONTYPE_MERCHANT = Enum.PlayerInteractionType.Merchant -- 5
 local function PLAYER_INTERACTION_MANAGER_FRAME_SHOW(...)
 	if ... == INTERACTIONTYPE_MERCHANT then
 		A.merchant_is_open = true
-		if not IsShiftKeyDown() then A.autorepair() end
+		if not IsShiftKeyDown() and CanMerchantRepair() then A.autorepair() end
 	end
 end
 
