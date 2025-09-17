@@ -159,6 +159,7 @@ L.CALCULATION_MISMATCH = 'We have a calculation mismatch: the computed discount 
 L.REPAIR_SUCCESS = 'Repaired for %s (%s discount)'
 L.REPAIR_FAILURE_GUILD = 'Your gear was not (or not entirely) repaired. This is probably because of your ' .. attn_txt('guildonly') .. ' setting.'
 L.REPAIR_FAILURE = 'Your gear was not (or not entirely) repaired. Did you run out of money?'
+L.REPAIR_SUMMARY = 'You could repair here for: %s - %s = %s'
 -- Config
 L.CFG_NOGUILD = format('%s --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.', bad_txt('No guild registered for this char'))
 L.CFG_GUILD_PREF = 'Prefer guild funds for auto-repairs: %s'

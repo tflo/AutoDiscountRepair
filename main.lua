@@ -319,7 +319,7 @@ function A.autorepair()
 	elseif db.show_repairsummary then
 		addonmsg(
 			format(
-				'You could repair here for: %s - %s = %s',
+				L.REPAIR_SUMMARY,
 				GetMoneyString(roundmoney(A.stdrepaircosts, 'silver'), true),
 				WrapTextInColorCode(nominal_discount .. '%', 'ff' .. A.DISCOUNTS[nominal_discount]),
 				GetMoneyString(roundmoney(actual_costs, 'silver'), true)
@@ -376,12 +376,12 @@ local function slash_cmd(msg)
 			)
 		)
 	elseif args[1] == 'max' or args[1]:sub(-1) == '%' then
-		local value = tonumber(args[1]:sub(1, -2)) or 20 -- `max`, `%`, `xyz%` --> 20
-		db.discount_threshold = max(min(value, 20), 0)
+		local val = tonumber(args[1]:sub(1, -2)) or 20 -- `max`, `%`, `xyz%` --> 20
+		db.discount_threshold = max(min(val, 20), 0)
 		addonmsg(format(L.CFG_DISCOUNT_THRESH, key_txt(db.discount_threshold .. '%')))
 	elseif tonumber(args[1]) then
-		local thresh = max(min(tonumber(args[1]), 1000), 0)
-		db.increased_costs_threshold = thresh * 1e4
+		local val = max(min(tonumber(args[1]), 1000), 0)
+		db.increased_costs_threshold = val * 1e4
 		addonmsg(
 			format(
 				L.CFG_COSTS_THRESH,
