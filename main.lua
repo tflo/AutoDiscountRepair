@@ -250,83 +250,79 @@ local function find_closest_valid_discount(actual)
 end
 
 function A.autorepair()
-		local actual_costs, canrepair = GetRepairAllCost()
-		if not canrepair then
-			if actual_costs == 0 then
-				addonmsg(pick_random(L.MSGS_NOREPAIR))
-			else
-				addonmsg(L.REPAIR_IMPOSSIBLE)
-			end
-			return
+	local actual_costs, canrepair = GetRepairAllCost()
+	if not canrepair then
+		if actual_costs == 0 then
+			addonmsg(pick_random(L.MSGS_NOREPAIR))
+		else
+			addonmsg(L.REPAIR_IMPOSSIBLE)
 		end
-		if actual_costs == 0 then return end
-		local actual_discount = 100 - actual_costs / A.stdrepaircosts * 100
-		local nominal_discount = find_closest_valid_discount(actual_discount)
-		debugprint(
-			format(
-				'Act: %s | Tol: %s | Nom: %s',
-				actual_discount,
-				A.DISCOUNT_TOLERANCE,
-				nominal_discount
-			)
+		return
+	end
+	if actual_costs == 0 then return end
+	local actual_discount = 100 - actual_costs / A.stdrepaircosts * 100
+	local nominal_discount = find_closest_valid_discount(actual_discount)
+	debugprint(
+		format(
+			'Act: %s | Tol: %s | Nom: %s',
+			actual_discount,
+			A.DISCOUNT_TOLERANCE,
+			nominal_discount
 		)
-		-- For debugging, but maybe leave it in as safety.
-		if not nominal_discount then
-			addonmessage(attn_txt(format(L.CALCULATION_MISMATCH, actual_discount)))
-			return
-		end
-		if nominal_discount >= db.discount_threshold then
-			if
-				guild
-				and (db.guilds[guild].guildmoney_preferred or db.guilds[guild].guildmoney_only)
-			then
-				if CanGuildBankRepair() then -- Not documented? - but it works
-					RepairAllItems(true)
-					if not db.guilds[guild].guildmoney_only then
-						RepairAllItems(false) -- Fallback if out of guild funds
-					end
-				elseif not db.guilds[guild].guildmoney_only then
-					RepairAllItems(false)
+	)
+	-- For debugging, but maybe leave it in as safety.
+	if not nominal_discount then
+		addonmessage(attn_txt(format(L.CALCULATION_MISMATCH, actual_discount)))
+		return
+	end
+	if nominal_discount >= db.discount_threshold then
+		if
+			guild and (db.guilds[guild].guildmoney_preferred or db.guilds[guild].guildmoney_only)
+		then
+			if CanGuildBankRepair() then -- Not documented? - but it works
+				RepairAllItems(true)
+				if not db.guilds[guild].guildmoney_only then
+					RepairAllItems(false) -- Fallback if out of guild funds
 				end
-			else
+			elseif not db.guilds[guild].guildmoney_only then
 				RepairAllItems(false)
 			end
-			if db.show_repairsummary then
-				-- Re-calculate repair costs
-				-- This comes to early w/o timer; TODO: test with different delays
-				C_TimerAfter(1, function()
-					local costs = get_repaircosts_inv() + get_repaircosts_bags()
-					if costs == 0 then
-						addonmsg(
-							format(
-								L.REPAIR_SUCCESS,
-								GetMoneyString(roundmoney(actual_costs, 'silver'), true),
-								WrapTextInColorCode(
-									nominal_discount .. '%',
-									'ff' .. A.DISCOUNTS[nominal_discount]
-								)
+		else
+			RepairAllItems(false)
+		end
+		if db.show_repairsummary then
+			-- Re-calculate repair costs
+			-- This comes to early w/o timer; TODO: test with different delays
+			C_TimerAfter(1, function()
+				local costs = get_repaircosts_inv() + get_repaircosts_bags()
+				if costs == 0 then
+					addonmsg(
+						format(
+							L.REPAIR_SUCCESS,
+							GetMoneyString(roundmoney(actual_costs, 'silver'), true),
+							WrapTextInColorCode(
+								nominal_discount .. '%',
+								'ff' .. A.DISCOUNTS[nominal_discount]
 							)
 						)
-					elseif db.guilds[guild].guildmoney_only then
-						addonmsg(L.REPAIR_FAILURE_GUILD)
-					else
-						addonmsg(L.REPAIR_FAILURE)
-					end
-				end)
-			end
-		elseif db.show_repairsummary then
-			addonmsg(
-				format(
-					'You could repair here for: %s - %s = %s',
-					GetMoneyString(roundmoney(A.stdrepaircosts, 'silver'), true),
-					WrapTextInColorCode(
-						nominal_discount .. '%',
-						'ff' .. A.DISCOUNTS[nominal_discount]
-					),
-					GetMoneyString(roundmoney(actual_costs, 'silver'), true)
-				)
-			)
+					)
+				elseif db.guilds[guild].guildmoney_only then
+					addonmsg(L.REPAIR_FAILURE_GUILD)
+				else
+					addonmsg(L.REPAIR_FAILURE)
+				end
+			end)
 		end
+	elseif db.show_repairsummary then
+		addonmsg(
+			format(
+				'You could repair here for: %s - %s = %s',
+				GetMoneyString(roundmoney(A.stdrepaircosts, 'silver'), true),
+				WrapTextInColorCode(nominal_discount .. '%', 'ff' .. A.DISCOUNTS[nominal_discount]),
+				GetMoneyString(roundmoney(actual_costs, 'silver'), true)
+			)
+		)
+	end
 end
 
 
