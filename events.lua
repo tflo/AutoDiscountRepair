@@ -2,6 +2,7 @@
 -- Copyright (c) 2025 Thomas Floeren
 
 local myname, A = ...
+local db = A.db
 
 local debugprint = A.debugprint
 
@@ -32,6 +33,7 @@ local function PLAYER_ENTERING_WORLD(is_login, is_reload)
 	if not is_login and not is_reload then return end
 	local delay = is_login and 10 or 5
 	C_TimerAfter(delay, A.get_guild)
+	if is_login then db.auto_repair = true end
 end
 
 local get_stdrepaircosts_onhold

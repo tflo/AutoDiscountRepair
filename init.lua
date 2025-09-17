@@ -23,6 +23,7 @@ local defaults = {
 	['increased_costs_threshold'] = 5 * 1e4,
 	['increased_costs_sound'] = true,
 	['show_repairsummary'] = true,
+	['auto_repair'] = true,
 	['debugmode'] = false,
 }
 
@@ -159,7 +160,8 @@ L.CALCULATION_MISMATCH = 'We have a calculation mismatch: the computed discount 
 L.REPAIR_SUCCESS = 'Repaired for %s (%s discount)'
 L.REPAIR_FAILURE_GUILD = 'Your gear was not (or not entirely) repaired. This is probably because of your ' .. attn_txt('guildonly') .. ' setting.'
 L.REPAIR_FAILURE = 'Your gear was not (or not entirely) repaired. Did you run out of money?'
-L.REPAIR_SUMMARY = 'You could repair here for: %s - %s = %s'
+L.DISCOUNT_TOO_LOW = 'Not enough discount here: %s – %s = %s'
+L.REPAIR_OFF = 'Auto-repair is disabled!\n— You could repair here for: %s – %s = %s'
 -- Config
 L.CFG_NOGUILD = format('%s --> cannot change or set guild settings. If you think this char is in a guild, try to reload the UI.', bad_txt('No guild registered for this char'))
 L.CFG_GUILD_PREF = 'Prefer guild funds for auto-repairs: %s'
@@ -169,6 +171,7 @@ L.CFG_SUMMARY = 'Print summary at merchant: %s'
 L.CFG_COSTS_SOUND = 'Play a sound when increased repair costs are printed: %s'
 L.CFG_DISCOUNT_THRESH = 'Discount threshold: %s'
 L.CFG_COSTS_THRESH = 'Minimum cost increase to print a new message: %s Gold'
+L.CFG_REPAIR = 'Auto-repair enabled: %s (auto-enabled at login)'
 L.CFG_INVALID = format('%s Type %s for a list of arguments.', bad_txt('Invalid argument(s).'), key_txt('/adr help'))
 L.CFG_DEBUG = 'Debug mode: %s'
 -- Help
@@ -182,6 +185,7 @@ L.HELP_COSTS_PRINT = key_txt('costs') .. ' : Print the current repair costs when
 L.HELP_COSTS_THRESH = key_txt('<number>') .. ' : Minimum cost increase to print a new message [difference in Gold; %s (%s)]. This requires the ' .. key_txt('costs') .. ' option to be enabled.'
 L.HELP_COSTS_SOUND = key_txt('sound') .. ' : Play a sound when increased repair costs are printed [toggle; %s (%s)]. This requires the ' .. key_txt('costs') .. ' option to be enabled.'
 L.HELP_HELP = format('%s or %s : Print this help text.', key_txt('help'), key_txt('h'))
+L.HELP_REPAIR = key_txt('repair') .. ' : Auto-repair [toggle; %s (%s)]. Auto-enabled at login.'
 
 
 A.L = L

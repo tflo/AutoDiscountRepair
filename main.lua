@@ -278,7 +278,8 @@ function A.autorepair()
 		addonmessage(attn_txt(format(L.CALCULATION_MISMATCH, actual_discount)))
 		return
 	end
-	if nominal_discount >= db.discount_threshold then
+	local repair_enabled = db.auto_repair and not IsShiftKeyDown()
+	if repair_enabled and nominal_discount >= db.discount_threshold then
 		if
 			guild and (db.guilds[guild].guildmoney_preferred or db.guilds[guild].guildmoney_only)
 		then
@@ -317,9 +318,10 @@ function A.autorepair()
 			end)
 		end
 	elseif db.show_repairsummary then
+		local msg = repair_enabled and L.DISCOUNT_TOO_LOW or L.REPAIR_OFF
 		addonmsg(
 			format(
-				L.REPAIR_SUMMARY,
+				msg,
 				GetMoneyString(roundmoney(A.stdrepaircosts, 'silver'), true),
 				WrapTextInColorCode(nominal_discount .. '%', 'ff' .. A.DISCOUNTS[nominal_discount]),
 				GetMoneyString(roundmoney(actual_costs, 'silver'), true)
@@ -375,6 +377,14 @@ local function slash_cmd(msg)
 				key_txt(db.increased_costs_sound)
 			)
 		)
+	elseif args[1] == 'repair' then
+		db.auto_repair = not db.auto_repair
+		addonmsg(
+			format(
+				L.CFG_REPAIR,
+				key_txt(db.auto_repair)
+			)
+		)
 	elseif args[1] == 'max' or args[1]:sub(-1) == '%' then
 		local val = tonumber(args[1]:sub(1, -2)) or 20 -- `max`, `%`, `xyz%` --> 20
 		db.discount_threshold = max(min(val, 20), 0)
@@ -426,6 +436,11 @@ local function slash_cmd(msg)
 				L.HELP_COSTS_SOUND,
 				good_txt(db.increased_costs_sound),
 				tostring(A.defaults.increased_costs_sound)
+			),
+			format(
+				L.HELP_REPAIR,
+				good_txt(db.auto_repair),
+				tostring(A.defaults.auto_repair)
 			),
 			L.HELP_HELP,
 		}
