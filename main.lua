@@ -400,6 +400,7 @@ local function slash_cmd(msg)
 		)
 	elseif args[1] == 'help' or args[1] == 'h' or args[1] == 'H'  or args[1] == 'Help' then
 		local lines = {
+			L.BLOCK_SEP,
 			L.HELP_HEADING,
 			L.HELP_INTRO,
 			format(
@@ -448,6 +449,7 @@ local function slash_cmd(msg)
 				tostring(A.defaults.debugmode)
 			),
 			L.HELP_HELP,
+			L.BLOCK_SEP,
 		}
 		-- Hide repair and debug toggles in std help
 		if args[1] == 'help' or args[1] == 'h' then table.removemulti(lines, 11, 2) end

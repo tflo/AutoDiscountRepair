@@ -188,5 +188,6 @@ L.HELP_HELP = format('%s or %s : Print this help text.', key_txt('help'), key_tx
 L.HELP_REPAIR = key_txt('repair') .. ' : Auto-repair [toggle; %s (%s)]. Auto-enabled at login.'
 L.HELP_DEBUG = key_txt('dm') .. ' : Debug mode [toggle; %s (%s)]. Enable only when needed.'
 
+L.BLOCK_SEP = addon_txt('++++++++++++++++++++++++++++++++++++++++++')
 
 A.L = L
