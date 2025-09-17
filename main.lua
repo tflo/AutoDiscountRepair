@@ -398,7 +398,7 @@ local function slash_cmd(msg)
 				key_txt(db.increased_costs_threshold / 1e4)
 			)
 		)
-	elseif args[1] == 'help' or args[1] == 'h' then
+	elseif args[1] == 'help' or args[1] == 'h' or args[1] == 'H'  or args[1] == 'Help' then
 		local lines = {
 			L.HELP_HEADING,
 			L.HELP_INTRO,
@@ -449,6 +449,8 @@ local function slash_cmd(msg)
 			),
 			L.HELP_HELP,
 		}
+		-- Hide repair and debug toggles in std help
+		if args[1] == 'help' or args[1] == 'h' then table.removemulti(lines, 11, 2) end
 		for _, line in ipairs(lines) do
 			print(line)
 		end
