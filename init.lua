@@ -135,7 +135,7 @@ L.MSGS_NOREPAIR = {
 	'No repairs needed. Maybe go lose a life and try again?',
 	'No repairs needed. Get a little roughed up first.',
 	'No repairs needed. Take a hit or two and come back.',
-	'No repairs needed. Take some hits and come back.',
+	'No repairs needed. Time to take some hits.',
 	'No repairs needed. Seems like you\'ve been careful out there.',
 	'No repairs needed. Can’t fix perfection.',
 	'No repairs needed. Have you been dodging on purpose?',
@@ -143,6 +143,9 @@ L.MSGS_NOREPAIR = {
 	'No repairs needed. Maybe the enemies are scared of scratching your gear.',
 	'No repairs needed. Was that quest just a brisk walk?',
 	'No repairs needed. Maybe time for some reckless delves?',
+	'No repairs needed. Even your boots look bored.',
+	'No repairs needed. Still looks fresh from the forge.',
+	'No repairs needed. Were you fighting or sightseeing?',
 }
 
 -- Guild
