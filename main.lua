@@ -375,9 +375,9 @@ local function slash_cmd(msg)
 				key_txt(db.increased_costs_sound)
 			)
 		)
-	elseif args[1] == 'max' or args[1]:match('^%d?%d%%$') then
-		local value = args[1] == 'max' and 20 or tonumber(args[1]:sub(1, -2))
-		db.discount_threshold = min(value, 20)
+	elseif args[1] == 'max' or args[1]:sub(-1) == '%' then
+		local value = tonumber(args[1]:sub(1, -2)) or 20 -- `max`, `%`, `xyz%` --> 20
+		db.discount_threshold = max(min(value, 20), 0)
 		addonmsg(format(L.CFG_DISCOUNT_THRESH, key_txt(db.discount_threshold .. '%')))
 	elseif tonumber(args[1]) then
 		local thresh = max(min(tonumber(args[1]), 1000), 0)
