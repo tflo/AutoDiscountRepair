@@ -186,7 +186,7 @@ function A.get_stdrepaircosts(byusercmd)
 					format(
 						L.COSTS_INVENTORY_TOTAL,
 						GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true),
-						diff_inv >= 0 and '+' or '-',
+						diff_inv >= 0 and '+' or '–',
 						GetMoneyString(roundmoney(absdiff_inv, round_diff), true)
 					)
 				)
@@ -195,7 +195,7 @@ function A.get_stdrepaircosts(byusercmd)
 					format(
 						L.COSTS_BAGS_TOTAL,
 						GetMoneyString(roundmoney(stdrepaircosts_bags, round_total), true),
-						diff_bags >= 0 and '+' or '-',
+						diff_bags >= 0 and '+' or '–',
 						GetMoneyString(roundmoney(absdiff_bags, round_diff), true)
 					)
 				)
@@ -204,7 +204,7 @@ function A.get_stdrepaircosts(byusercmd)
 					format(
 						L.COSTS_INVENTORY,
 						GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true),
-						diff_inv >= 0 and '+' or '-',
+						diff_inv >= 0 and '+' or '–',
 						GetMoneyString(roundmoney(absdiff_inv, round_diff), true)
 					)
 				)
@@ -212,7 +212,7 @@ function A.get_stdrepaircosts(byusercmd)
 					format(
 						L.COSTS_BAGS,
 						GetMoneyString(roundmoney(stdrepaircosts_bags, round_total), true),
-						diff_bags >= 0 and '+' or '-',
+						diff_bags >= 0 and '+' or '–',
 						GetMoneyString(roundmoney(absdiff_bags, round_diff), true)
 					)
 				)
@@ -220,7 +220,7 @@ function A.get_stdrepaircosts(byusercmd)
 					format(
 						L.COSTS_TOTAL,
 						GetMoneyString(roundmoney(stdrepaircosts, round_total), true),
-						diff_total >= 0 and '+' or '-',
+						diff_total >= 0 and '+' or '–',
 						GetMoneyString(roundmoney(absdiff_total, round_diff), true)
 					)
 				)
