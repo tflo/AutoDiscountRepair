@@ -1,17 +1,15 @@
 ## Interface: 110200
 ## Title: Auto Discount Repair
-## Version: 0.7.2
+## Version: 1.0.0
 ## IconAtlas: Vehicle-HammerGold
-## Notes: Auto-repairs your gear where it is cheap (faction discount).
+## Notes: Auto-repairs your gear where it's cheap (faction discount).
 ## Author: Mot (@6mot, @tflo)
 ## SPDX-License-Identifier: GPL-3.0-or-later
-
 # DefaultState: disabled
 # Dependencies:
 # OptionalDeps:
 # LoadWith:
 # LoadOnDemand:
-
 ## X-Curse-Project-ID: 1345394
 # X-Wago-ID:
 ## AllowAddOnTableAccess: 1

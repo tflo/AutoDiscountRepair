@@ -237,8 +237,8 @@ end
 
 
 local function pick_random(array)
-    local i = fastrandom(#array)
-    return array[i]
+	local i = fastrandom(#array)
+	return array[i]
 end
 
 
@@ -335,7 +335,6 @@ end
 	Console
 ===========================================================================]]--
 
-
 local function slash_cmd(msg)
 	local args = strsplittable(' ', strtrim(msg), 2)
 	if not args[1] or args[1] == '' then
@@ -399,6 +398,7 @@ local function slash_cmd(msg)
 			)
 		)
 	elseif args[1] == 'help' or args[1] == 'h' or args[1] == 'H'  or args[1] == 'Help' then
+		-- ! After adding/swapping/removing entries, check the values for table.removemulti !
 		local lines = {
 			L.BLOCK_SEP,
 			L.HELP_HEADING,

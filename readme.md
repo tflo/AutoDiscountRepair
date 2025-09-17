@@ -4,7 +4,7 @@ Automatically repair your gear – where it’s cheap.
 
 ## Preliminary
 
-As of 14 Sep 2025 and version 0.7.0, this addon is still in an early stage. It’s likely that we will have to squish a few more bugs ;) You can help by reporting bugs (or suggestions) to the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) of the repo! (Kindly avoid posting issues or suggestions in the CurseForge comments.)
+As of 18 Sep 2025 and version 1.0.0, this addon is still in an early stage. It’s likely that we will have to squish a few more bugs ;) You can help by reporting bugs (or suggestions) to the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) of the repo! (Kindly avoid posting issues or suggestions in the CurseForge comments.)
 
 ___If you’re having trouble reading this description on CurseForge, you might want to try switching to the [REPO PAGE](https://github.com/tflo/AutoDiscountRepair?tab=readme-ov-file#auto-discount-repair). You’ll find the exact same text there, but it’s much easier to read and free from CurseForge’s rendering errors.___
 
@@ -16,14 +16,15 @@ In Modern WoW, you can get a discount when repairing gear at a repair merchant. 
 
 Whenever you interact with a repair merchant, the addon checks if you are getting at least your set minimum discount (default is 20%, which is the max). If you do, it will automatically repair your gear for you. If not, you'll see a message in the chat showing the actual discount and repair cost, so you can decide if you want to repair manually or not.
 
-That’s it. No bells and no whistles.
+That’s it. No bells or whistles.
 
-Some extras though:
+Some minor extras though:
 
 - Periodic message when your current repair costs (inventory + bags) increase by a configurable threshold (for example every 5 Gold).
 - Enter `/adr` into the chat console to display your current standardized (0% discount) repair costs at any time, separately for inventory and bags, if gear in both locations is damaged.
 - Two different settings for paying with guild funds.
 - Configurable discount threshold.
+- Holding down Shift while opening the merchant prevents auto-repair (still shows the discount calculation).
 - See the detailed explanations for the settings in the “Interface” section.
 
 ## Interface
@@ -43,7 +44,7 @@ __The `/adr` command understands the following arguments (settings);__ most of t
 - `costs` : Print the current repair costs when they increase [toggle; default: true]. This prints your current repair costs to the chat after your gear has suffered durability loss.
 - `<number>` : Minimum cost increase to print a new repair costs message [difference in Gold;  default: 5]. This requires the `costs` option to be enabled.
 - `sound` : Play a little sound whenever the increased repair costs are printed [toggle; default: true]. This requires the `costs` option to be enabled. (Actually you get different sounds, depending on how much the costs have increased.)
-- `help` or `h` : Shows the Help text, with a list of all arguments and the current settings.
+- `help` or `h` : Shows the Help text, with a list of all arguments and the current settings. (Use `Help` or `H` for an extended list with some additional, rarely used, arguments.)
 
 All settings are account-wide, except for the guild-related settings. These are per guild.
 

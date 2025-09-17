@@ -5,6 +5,22 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 1.0.0 (2025-09-18)
+
+- This update brings you what you’ve been waiting for: more random messages at the merchant when there’s nothing to repair :-)
+- Changed Shift modifier to prevent auto-repair but still printing the discount calculation.
+- Added Shift-Ctrl modifier to completely ignore the merchant interaction event.
+- Added `repair` as command argument to toggle auto-repair:
+    - Allows you to disable auto-repair w/o unloading the addon.
+    - If disabled, it gets auto-enabled at next login (not reload).
+    - Argument not exposed in normal help or description, since probably no one needs this.
+    - You can achieve the same effect by holding down Shift when opening the merchant.
+- Added `Help` and `H` arguments. This is the extended version of `help` and `h` and lists also the `dm` (debug mode) and `repair` (see above) arguments.
+- Refactored all messages, moved all strings to init, changed some.
+- Less complaining and better sanitizing of weird command input.
+- Improved the no-guild-info-retrieved warnings.
+- Various minor changes, major cleanup.
+
 #### 0.7.2 (2025-09-15)
 
 - More tolerance for discount validation.
