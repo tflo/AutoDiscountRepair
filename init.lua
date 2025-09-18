@@ -115,6 +115,8 @@ A.REPAIR_COST_UPDATE_DELAY = 1
 A.GUILD_RETRY_DELAY = 20
 A.GUILD_RETRY_MAX = 3
 
+A.PRECISION_TOTAL = 'silver'
+A.PRECISION_DIFF = 'copper'
 local INF_NEG = -math.huge
 -- { greater than diff in Gold, Sound ID }
 A.SOUNDS_INCREASED_COSTS = {
@@ -167,11 +169,11 @@ L.MSGS_NOREPAIR = {
 L.NO_GUILD_INFO = '\nWARNING: Guild info unavailable (try %s/' .. A.GUILD_RETRY_MAX .. '); possible server lag.\n— Retrying in ' .. A.GUILD_RETRY_DELAY .. ' seconds.\n— Auto-repairs you’ll do now will be paid with your personal funds!'
 L.NO_GUILD_INFO_FINAL = '\nFINAL WARNING: Guild data not retrieved; probably server lag.\n— Please wait, then reload or relog.\n— All auto-repairs will be paid with your personal funds until reload or relog!'
 -- Costs
-L.COSTS_INVENTORY_TOTAL = 'Inventory (= total) repair costs: %s (%s%s)'
-L.COSTS_BAGS_TOTAL = 'Bags (= total) repair costs: %s (%s%s)'
-L.COSTS_INVENTORY = 'Inventory repair costs: %s (%s%s)'
-L.COSTS_BAGS = 'Bags repair costs: %s (%s%s)'
-L.COSTS_TOTAL = 'Total repair costs: %s (%s%s)'
+L.COSTS_INVENTORY_TOTAL = 'Inventory (= total) repair costs: %s%s'
+L.COSTS_BAGS_TOTAL = 'Bags (= total) repair costs: %s%s'
+L.COSTS_INVENTORY = 'Inventory repair costs: %s%s'
+L.COSTS_BAGS = 'Bags repair costs: %s%s'
+L.COSTS_TOTAL = 'Total repair costs: %s%s'
 -- Merchant
 L.REPAIR_IMPOSSIBLE = attn_txt('For some reason, you currently cannot repair here.')
 L.CALCULATION_MISMATCH = 'We have a calculation mismatch: the computed discount of %s%% does not match any nominal discount (0%%, 5%%, 10%%, 15%%, 20%%)! Probably our last record of the standard repair costs is not accurate or outdated. Aborting auto-repair! (You may try to restart interaction with the merchant.)'

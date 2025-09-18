@@ -152,6 +152,17 @@ local function get_sound_for_costincrease(diff)
 	end
 end
 
+local function add_diff_print(diff, absdiff)
+	if absdiff > 0 then
+		return format(
+			' (%s%s)',
+			diff >= 0 and '+' or '–',
+			GetMoneyString(roundmoney(absdiff, A.PRECISION_DIFF), true)
+		)
+	end
+	return ''
+end
+
 -- @ UPDATE_INVENTORY_DURABILITY
 function A.get_stdrepaircosts(byusercmd)
 	-- Check this again here
@@ -162,7 +173,7 @@ function A.get_stdrepaircosts(byusercmd)
 	debugprint('Repair costs updated.')
 	-- Messages
 	if db.show_increased_costs or byusercmd then
-		local thresh, round_total, round_diff = db.increased_costs_threshold, 'silver', 'copper'
+		local thresh = db.increased_costs_threshold
 		if not A.last_repaircosts_inv then
 			-- First run
 			thresh = 0
@@ -185,43 +196,38 @@ function A.get_stdrepaircosts(byusercmd)
 				addonmsg(
 					format(
 						L.COSTS_INVENTORY_TOTAL,
-						GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true),
-						diff_inv >= 0 and '+' or '–',
-						GetMoneyString(roundmoney(absdiff_inv, round_diff), true)
+						GetMoneyString(roundmoney(stdrepaircosts_inv, A.PRECISION_TOTAL), true),
+						add_diff_print(diff_inv, absdiff_inv)
 					)
 				)
 			elseif stdrepaircosts_inv == 0 and diff_inv == 0 then
 				addonmsg(
 					format(
 						L.COSTS_BAGS_TOTAL,
-						GetMoneyString(roundmoney(stdrepaircosts_bags, round_total), true),
-						diff_bags >= 0 and '+' or '–',
-						GetMoneyString(roundmoney(absdiff_bags, round_diff), true)
+						GetMoneyString(roundmoney(stdrepaircosts_bags, A.PRECISION_TOTAL), true),
+						add_diff_print(diff_bags, absdiff_bags)
 					)
 				)
 			else
 				addonmsg(
 					format(
 						L.COSTS_INVENTORY,
-						GetMoneyString(roundmoney(stdrepaircosts_inv, round_total), true),
-						diff_inv >= 0 and '+' or '–',
-						GetMoneyString(roundmoney(absdiff_inv, round_diff), true)
+						GetMoneyString(roundmoney(stdrepaircosts_inv, A.PRECISION_TOTAL), true),
+						add_diff_print(diff_inv, absdiff_inv)
 					)
 				)
 				addonmsg(
 					format(
 						L.COSTS_BAGS,
-						GetMoneyString(roundmoney(stdrepaircosts_bags, round_total), true),
-						diff_bags >= 0 and '+' or '–',
-						GetMoneyString(roundmoney(absdiff_bags, round_diff), true)
+						GetMoneyString(roundmoney(stdrepaircosts_bags, A.PRECISION_TOTAL), true),
+						add_diff_print(diff_bags, absdiff_bags)
 					)
 				)
 				addonmsg(
 					format(
 						L.COSTS_TOTAL,
-						GetMoneyString(roundmoney(stdrepaircosts, round_total), true),
-						diff_total >= 0 and '+' or '–',
-						GetMoneyString(roundmoney(absdiff_total, round_diff), true)
+						GetMoneyString(roundmoney(stdrepaircosts, A.PRECISION_TOTAL), true),
+						add_diff_print(diff_total, absdiff_total)
 					)
 				)
 			end
