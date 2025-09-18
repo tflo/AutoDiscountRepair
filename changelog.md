@@ -5,6 +5,11 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 1.0.2 (2025-09-18)
+
+- Minor optimizations, DB versioning. 
+- Changed a few messages.
+
 #### 1.0.1 (2025-09-18)
 
 - Sanitize custom discount input to nominal values (cosmetic). 
