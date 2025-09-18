@@ -5,6 +5,10 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 1.0.1 (2025-09-18)
+
+- Sanitize custom discount input to nominal values (cosmetic). 
+
 #### 1.0.0 (2025-09-18)
 
 - This update brings you what you’ve been waiting for: more random messages at the merchant when there’s nothing to repair :-)

@@ -101,6 +101,11 @@ A.ADDONNAME_LONG = myprettyname
 A.PREFIX_SHORT = A.CLR_ADDON:WrapTextInColorCode(A.ADDONNAME_SHORT) .. ': '
 A.PREFIX_LONG = A.CLR_ADDON:WrapTextInColorCode(A.ADDONNAME_LONG) .. ': '
 
+A.REPAIR_COST_UPDATE_DELAY = 1
+
+A.GUILD_RETRY_DELAY = 20
+A.GUILD_RETRY_MAX = 3
+
 local INF_NEG = -math.huge
 -- { greater than diff in Gold, Sound ID }
 A.SOUNDS_INCREASED_COSTS = {
@@ -112,6 +117,7 @@ A.SOUNDS_INCREASED_COSTS = {
 }
 
 A.DISCOUNT_MAX = 20
+A.DISCOUNT_TOLERANCE = 0.01
 A.DISCOUNTS = {
 	[0] = 'FF0000',
 	[5] = 'FFA500',
@@ -120,10 +126,6 @@ A.DISCOUNTS = {
 	[A.DISCOUNT_MAX] = '00FF00',
 }
 
-A.DISCOUNT_TOLERANCE = 0.01
-A.GUILD_RETRY_DELAY = 20
-A.GUILD_RETRY_MAX = 3
-A.REPAIR_COST_UPDATE_DELAY = 1
 
 --[[===========================================================================
 	Messages
