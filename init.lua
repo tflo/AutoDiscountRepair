@@ -14,6 +14,8 @@ local format = format
 
 -- Note that we have `LoadSavedVariablesFirst: 1` in the toc, so no need to wait for ADDON_LOADED
 
+local DB_VERSION_CURRENT = 1
+
 local defaults = {
 	['default_guildmoney_preferred'] = false,
 	['default_guildmoney_only'] = false,
@@ -25,6 +27,7 @@ local defaults = {
 	['show_repairsummary'] = true,
 	['auto_repair'] = true,
 	['debugmode'] = false,
+	['db_version'] = DB_VERSION_CURRENT,
 }
 
 local function merge_defaults(src, dst)
@@ -47,6 +50,12 @@ merge_defaults(defaults, _G[DB_ID])
 local db = _G[DB_ID]
 A.db = db
 A.defaults = defaults
+
+-- DB cleanup, once necessary
+-- if not db.db_version or db.db_version < DB_VERSION_CURRENT then
+-- 	-- clean up old keys
+-- end
+-- db.db_version = DB_VERSION_CURRENT
 
 
 --[[===========================================================================
