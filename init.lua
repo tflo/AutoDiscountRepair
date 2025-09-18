@@ -111,12 +111,13 @@ A.SOUNDS_INCREASED_COSTS = {
 	{INF_NEG, 1451467}, -- costs have decreased
 }
 
+A.DISCOUNT_MAX = 20
 A.DISCOUNTS = {
 	[0] = 'FF0000',
 	[5] = 'FFA500',
 	[10] = 'FFD700',
 	[15] = '00FFFF',
-	[20] = '00FF00',
+	[A.DISCOUNT_MAX] = '00FF00',
 }
 
 A.DISCOUNT_TOLERANCE = 0.01
