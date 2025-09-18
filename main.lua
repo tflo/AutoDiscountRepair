@@ -398,61 +398,62 @@ local function slash_cmd(msg)
 			)
 		)
 	elseif args[1] == 'help' or args[1] == 'h' or args[1] == 'H'  or args[1] == 'Help' then
+		local extended = args[1]:sub(1,1) == 'H' and true
 		-- ! After adding/swapping/removing entries, check the values for table.removemulti !
 		local lines = {
-			L.BLOCK_SEP,
-			L.HELP_HEADING,
-			L.HELP_INTRO,
-			format(
+			L.BLOCK_SEP, -- 1
+			L.HELP_HEADING, -- 2
+			L.HELP_INTRO, -- 3
+			format( -- 4
 				L.HELP_GUILD_PREF,
 				good_txt(db.guilds[guild].guildmoney_preferred),
 				tostring(A.defaults.default_guildmoney_preferred)
 			),
-			format(
+			format( -- 5
 				L.HELP_GUILD_ONLY,
 				good_txt(db.guilds[guild].guildmoney_only),
 				tostring(A.defaults.default_guildmoney_only)
 			),
-			format(
+			format( -- 6
 				L.HELP_DISCOUNT_THRESH,
 				good_txt(db.discount_threshold .. '%'),
 				A.defaults.discount_threshold
 			),
-			format(
+			format( -- 7
 				L.HELP_SUMMARY,
 				good_txt(db.show_repairsummary),
 				tostring(A.defaults.show_repairsummary)
 			),
-			format(
+			format( -- 8
 				L.HELP_COSTS_PRINT,
 				good_txt(db.show_increased_costs),
 				tostring(A.defaults.show_increased_costs)
 			),
-			format(
+			format( -- 9
 				L.HELP_COSTS_THRESH,
 				good_txt(db.increased_costs_threshold / 1e4),
 				A.defaults.increased_costs_threshold / 1e4
 			),
-			format(
+			format( -- 10
 				L.HELP_COSTS_SOUND,
 				good_txt(db.increased_costs_sound),
 				tostring(A.defaults.increased_costs_sound)
 			),
-			format(
+			format( -- 11
 				L.HELP_REPAIR,
 				good_txt(db.auto_repair),
 				tostring(A.defaults.auto_repair)
 			),
-			format(
+			format( -- 12
 				L.HELP_DEBUG,
 				good_txt(db.debugmode),
 				tostring(A.defaults.debugmode)
 			),
-			L.HELP_HELP,
-			L.BLOCK_SEP,
+			L.HELP_HELP, -- 13
+			L.BLOCK_SEP, -- 14
 		}
 		-- Hide repair and debug toggles in std help
-		if args[1] == 'help' or args[1] == 'h' then table.removemulti(lines, 11, 2) end
+		if not extended then table.removemulti(lines, 11, 2) end
 		for _, line in ipairs(lines) do
 			print(line)
 		end
