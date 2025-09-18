@@ -152,12 +152,15 @@ L.MSGS_NOREPAIR = {
 	'No repairs needed. Can’t fix perfection.',
 	'No repairs needed. Have you been dodging on purpose?',
 	'No repairs needed. Did you let your pet do the tanking again?',
-	'No repairs needed. Maybe the enemies are scared of scratching your gear.',
 	'No repairs needed. Was that quest just a brisk walk?',
-	'No repairs needed. Maybe time for some reckless delves?',
 	'No repairs needed. Even your boots look bored.',
 	'No repairs needed. Still looks fresh from the forge.',
 	'No repairs needed. Were you fighting or sightseeing?',
+	'No repairs needed. Is this easy mode?',
+	'No repairs needed. Oops, forgot to fight?',
+	'No repairs needed. Real wild out there, huh?',
+	'No repairs needed. Try harder next pull.',
+	'No repairs needed. Next time, swing back!',
 }
 
 -- Guild
