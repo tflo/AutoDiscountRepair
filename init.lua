@@ -115,7 +115,7 @@ A.GUILD_RETRY_MAX = 3
 A.PRECISION_TOTAL = 'silver'
 A.PRECISION_DIFF = 'copper'
 local INF_NEG = -math.huge
--- { greater than diff in Gold, Sound ID }
+-- { gold diff >= value, Sound ID }
 A.SOUNDS_INCREASED_COSTS = {
 	{10, 2174245},
 	{5, 1272544},
@@ -160,6 +160,8 @@ L.MSGS_NOREPAIR = {
 	'No repairs needed. Real wild out there, huh?',
 	'No repairs needed. Try harder next pull.',
 	'No repairs needed. Next time, swing back!',
+	'No repairs needed. Is this your AH toon?',
+	'No repairs needed. Is this your banker?',
 }
 
 -- Guild
