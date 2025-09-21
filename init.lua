@@ -146,12 +146,13 @@ A.MSG_NOREPAIR_MAXTRIES = 100
 L.MSG_NOREPAIR_FALLBACK = 'No repairs needed. Still looks fresh from the forge.'
 
 L.MSGS_NOREPAIR = {
-	[1] = {
-		-- repair
+	[0] = {
 		'No repairs needed.',
 		'Nothing to repair.',
 		'No gear repairs needed.',
-		'Equipment needs no repair.',
+		'No equipment repairs needed.',
+	},
+	[1] = {
 		-- equipment
 		'All equipment already at full durability.',
 		'All equipment still at full durability.',

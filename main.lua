@@ -248,12 +248,14 @@ local function pick_random(array)
 end
 
 local function build_norepair_msg()
+	local group1 = pick_random({ 0, 1 })
+	local group2 = group1 == 1 and 2 or pick_random({ 1, 1, 2 })
 	for i = 1, A.MSG_NOREPAIR_MAXTRIES do
-		local str1, str2 = pick_random(L.MSGS_NOREPAIR[1]), pick_random(L.MSGS_NOREPAIR[2])
+		local str1, str2 =
+			pick_random(L.MSGS_NOREPAIR[group1]), pick_random(L.MSGS_NOREPAIR[group2])
 		if #str1 + #str2 + 1 <= A.MSG_NOREPAIR_MAXLENGTH then
 			local msg = str1 .. ' ' .. str2
-			msg = db.debugmode and msg .. ' [' .. i ..']' or msg
-			return msg
+			return db.debugmode and msg .. ' [' .. i .. ']' or msg
 		end
 	end
 	return L.MSG_NOREPAIR_FALLBACK
