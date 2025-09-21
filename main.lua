@@ -243,7 +243,7 @@ end
 
 
 local function pick_random(array)
-	local i = fastrandom(#array)
+	local i = random(#array)
 	return array[i]
 end
 
