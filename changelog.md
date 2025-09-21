@@ -5,6 +5,13 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 1.0.3 (2025-09-22)
+
+- Print repair costs difference only when there is one (should only affect the login message).
+- Reworked random-messages system.
+- Increased number of possible no-repairs-needed random message combinations to 650.
+- Minor refactoring.
+
 #### 1.0.2 (2025-09-18)
 
 - Minor optimizations, DB versioning. 

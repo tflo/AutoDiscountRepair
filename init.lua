@@ -211,7 +211,7 @@ L.MSGS_NOREPAIR = {
 		'What happened to combat?',
 		'Did you take the scenic route?',
 		'Maybe try harder dungeons?',
-		'Running only tier 1 delves?',
+		'Only tier 1 delves today?',
 		'Peaceful stroll through Azeroth?',
 		'Is this a walking simulator?',
 	},
@@ -263,3 +263,4 @@ L.HELP_DEBUG = key_txt('dm') .. ' : Debug mode [toggle; %s (%s)]. Enable only wh
 L.BLOCK_SEP = addon_txt('++++++++++++++++++++++++++++++++++++++++++')
 
 A.L = L
+
