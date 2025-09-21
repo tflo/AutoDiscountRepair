@@ -247,6 +247,17 @@ local function pick_random(array)
 	return array[i]
 end
 
+local function build_norepair_msg()
+	for i = 1, A.MSG_NOREPAIR_MAXTRIES do
+		local str1, str2 = pick_random(L.MSGS_NOREPAIR[1]), pick_random(L.MSGS_NOREPAIR[2])
+		if #str1 + #str2 + 1 <= A.MSG_NOREPAIR_MAXLENGTH then
+			local msg = str1 .. ' ' .. str2
+			msg = db.debugmode and msg .. ' [' .. i ..']' or msg
+			return msg
+		end
+	end
+	return L.MSG_NOREPAIR_FALLBACK
+end
 
 local function find_closest_valid_discount(actual)
 	for k in pairs(A.DISCOUNTS) do
@@ -259,7 +270,7 @@ function A.autorepair()
 	local actual_costs, canrepair = GetRepairAllCost()
 	if not canrepair then
 		if actual_costs == 0 then
-			addonmsg(pick_random(L.MSGS_NOREPAIR))
+			addonmsg(build_norepair_msg())
 		else
 			addonmsg(L.REPAIR_IMPOSSIBLE)
 		end
