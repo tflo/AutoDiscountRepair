@@ -238,6 +238,7 @@ function A.get_stdrepaircosts(byusercmd)
 		end
 	end
 	A.stdrepaircosts = stdrepaircosts
+-- 	return stdrepaircosts
 end
 
 

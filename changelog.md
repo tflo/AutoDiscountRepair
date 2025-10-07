@@ -5,6 +5,12 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 1.0.4 (2025-10-07)
+
+- toc bumped to 110205.
+- Minor cosmetic changes to Help print.
+- Added private login debug to observe strange differences between durability at logout and login (not activated for users).
+
 #### 1.0.3 (2025-09-22)
 
 - Print repair costs difference only when there is one (should only affect the login message).
