@@ -247,7 +247,7 @@ L.CFG_REPAIR = 'Auto-repair enabled: %s (auto-enabled at login)'
 L.CFG_INVALID = format('%s Type %s for a list of arguments.', bad_txt('Invalid argument(s).'), key_txt('/adr help'))
 L.CFG_DEBUG = 'Debug mode: %s'
 -- Help
-L.HELP_HEADING = format('%s Help:', addon_txt(A.ADDONNAME_LONG))
+L.HELP_HEADING = format('%s Help and Settings Info:', addon_txt(A.ADDONNAME_LONG))
 L.HELP_INTRO = format('%s accepts these arguments [type; current value (default)]:', key_txt('/adr'))
 L.HELP_GUILD_PREF = key_txt('guild') .. ' : Prefer guild funds for auto-repairs [toggle; %s (%s)].'
 L.HELP_GUILD_ONLY = key_txt('guildonly') .. ' : Use exclusively guild funds for auto-repairs [toggle; %s (%s)]. If enabled, this implies "Prefer guild funds".'
