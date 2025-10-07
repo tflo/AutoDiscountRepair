@@ -179,6 +179,10 @@ function A.get_stdrepaircosts(byusercmd)
 			thresh = 0
 			A.last_repaircosts_inv = stdrepaircosts_inv
 			A.last_repaircosts_bags = stdrepaircosts_bags
+			-- Private login debug
+			if db.chars then
+				addonmsg('Costs at logout: ' .. GetMoneyString(db.chars[A.PLAYERNAME].costs_logout, true))
+			end
 		end
 		if byusercmd then thresh = 0 end
 		local diff_inv = stdrepaircosts_inv - A.last_repaircosts_inv
