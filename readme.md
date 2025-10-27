@@ -2,12 +2,6 @@
 
 Automatically repair your gear – where it’s cheap.
 
-## Preliminary
-
-As of 18 Sep 2025 and version 1.0.0, this addon is still in an early stage. It’s likely that we will have to squish a few more bugs ;) You can help by reporting bugs (or suggestions) to the [GitHub Issues](https://github.com/tflo/AutoDiscountRepair/issues) of the repo! (Kindly avoid posting issues or suggestions in the CurseForge comments.)
-
-___If you’re having trouble reading this description on CurseForge, you might want to try switching to the [REPO PAGE](https://github.com/tflo/AutoDiscountRepair?tab=readme-ov-file#auto-discount-repair). You’ll find the exact same text there, but it’s much easier to read and free from CurseForge’s rendering errors.___
-
 ## What the addon does
 
 There are many addons with auto-repair functionality, but we try to handle it smart.
@@ -27,7 +21,13 @@ Some minor extras though:
 - Holding down Shift while opening the merchant prevents auto-repair (still shows the discount calculation).
 - See the detailed explanations for the settings in the “Interface” section.
 
-## Interface
+---
+
+*If you’re having trouble reading this description on CurseForge, you might want to try switching to the [Repo Page](https://github.com/tflo/AutoDiscountRepair?tab=readme-ov-file#auto-discount-repair). You’ll find the exact same text there, but it’s much easier to read and free from CurseForge’s rendering errors.*
+
+---
+
+## Usage
 
 __The addon uses the chat console as user interface.__
 
@@ -87,5 +87,3 @@ __Other addons by me:__
 __WeakAuras:__
 
 - [___Stats Mini___](https://wago.io/S4023p3Im): A *very* compact but beautiful and feature-loaded stats display: primary/secondary stats, *all* defensive stats (also against target), GCD, speed (rating/base/actual/Skyriding), iLevel (equipped/overall/difference), char level +progress.
-
-
