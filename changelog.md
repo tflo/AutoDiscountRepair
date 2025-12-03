@@ -5,6 +5,12 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 1.0.5 (2025-12-03)
+
+- Change license, add CONTRIBUTING/CLA.
+- Update readme/description.
+- toc: compat flag 110207
+
 #### 1.0.4 (2025-10-07)
 
 - toc bumped to 110205.
