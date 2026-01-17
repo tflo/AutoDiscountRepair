@@ -1,6 +1,6 @@
-## Interface: 110207
+## Interface: 110207, 120000, 120001, 120002
 ## Title: Auto Discount Repair
-## Version: 1.0.5
+## Version: 1.0.6
 ## IconAtlas: Vehicle-HammerGold
 ## Notes: Auto-repairs your gear where it's cheap (faction discount).
 ## Author: Mot (@6mot, @tflo)
