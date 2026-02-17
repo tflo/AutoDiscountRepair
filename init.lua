@@ -86,7 +86,7 @@ end
 
 function A.debugprint(...)
 	if not db.debugmode then return end
-	print(A.PREFIX_SHORT .. A.CLR_DEBUG, ...)
+	print(A.PREFIX_SHORT .. '|cFFFF00FF', ...)
 end
 
 
@@ -100,7 +100,6 @@ A.CLR_GOOD = GREEN_FONT_COLOR
 A.CLR_KEY = BLUE_FONT_COLOR
 A.CLR_ATTN = ORANGE_FONT_COLOR
 A.CLR_BAD = RED_FONT_COLOR
-A.CLR_DEBUG = EXPANSION_COLOR_13
 A.ADDONNAME_SHORT = 'ADR'
 A.ADDONNAME_LONG = myprettyname
 
