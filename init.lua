@@ -84,9 +84,9 @@ function A.addonmessage(text, color)
 	print(A.PREFIX_LONG .. color:WrapTextInColorCode(text))
 end
 
-function A.debugprint(text)
+function A.debugprint(...)
 	if not db.debugmode then return end
-	print(A.PREFIX_SHORT .. A.CLR_DEBUG:WrapTextInColorCode(text))
+	print(A.PREFIX_SHORT .. A.CLR_DEBUG, ...)
 end
 
 

@@ -64,23 +64,29 @@ function A.get_guild() -- @ login
 		if not (guild_name and guild_realm) then
 			if tries < A.GUILD_RETRY_MAX then
 				addonmessage(format(L.NO_GUILD_INFO, tries), A.CLR_BAD)
-				debugprint(
-					format(
-						'Guild info fetch failed (try %s): %s, %s',
-						tries,
-						guild_name or 'NO NAME',
-						guild_realm or 'NO REALM'
+				if db.debugmode then
+					debugprint(
+						format(
+							'Guild info fetch failed (try %s): %s, %s',
+							tries,
+							guild_name or 'NO NAME',
+							guild_realm or 'NO REALM'
+						)
 					)
-				)
+				end
 				C_TimerAfter(A.GUILD_RETRY_DELAY, try_get_guild)
 			else
 				addonmessage(L.NO_GUILD_INFO_FINAL, A.CLR_BAD)
-				debugprint(format('Max retries (%s) reached, no guild set.', A.GUILD_RETRY_MAX))
+				if db.debugmode then
+					debugprint(format('Max retries (%s) reached, no guild set.', A.GUILD_RETRY_MAX))
+				end
 			end
 			return
 		end
 		guild = guild_name .. '-' .. guild_realm
-		debugprint(format('Guild set: %s (try %s)', guild, tries))
+		if db.debugmode then
+			debugprint(format('Guild set: %s (try %s)', guild, tries))
+		end
 		if guild and not db.guilds[guild] then
 			db.guilds[guild] = {
 				['guildmoney_preferred'] = db['default_guildmoney_preferred'],
@@ -289,14 +295,16 @@ function A.autorepair()
 	end
 	local actual_discount = 100 - actual_costs / A.stdrepaircosts * 100
 	local nominal_discount = find_closest_valid_discount(actual_discount)
-	debugprint(
-		format(
-			'Act: %s | Tol: %s | Nom: %s',
-			actual_discount,
-			A.DISCOUNT_TOLERANCE,
-			nominal_discount
+	if db.debugmode then
+		debugprint(
+			format(
+				'Act: %s | Tol: %s | Nom: %s',
+				actual_discount or '?',
+				A.DISCOUNT_TOLERANCE or '?',
+				nominal_discount or '?'
+			)
 		)
-	)
+	end
 	-- For debugging, but maybe leave it in as safety.
 	if not nominal_discount then
 		addonmessage(attn_txt(format(L.CALCULATION_MISMATCH, actual_discount)))
