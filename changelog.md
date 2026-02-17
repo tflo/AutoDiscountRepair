@@ -5,6 +5,12 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 1.0.7 (2026-02-17)
+
+- Prevent debug prints from producing errors while not in debug mode. Stupid me.
+- Remove a Blizz color constant that seems to be nil in 12.0.1.
+- Remove old interface version numbers from toc.
+
 #### 1.0.6 (2026-01-17)
 
 - Bumped compatibility flags to 12000+
