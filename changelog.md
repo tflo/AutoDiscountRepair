@@ -5,6 +5,10 @@ To see all commits, including all alpha changes, [*go here*](https://github.com/
 ## Releases
 
 
+#### 1.0.8 (2026-06-14)
+
+- toc bump, no changes.
+
 #### 1.0.7 (2026-02-17)
 
 - Prevent debug prints from producing errors while not in debug mode. Stupid me.
